@@ -1,10 +1,13 @@
 var React = require("react");
-var Positionable = require('./Positionable.jsx');
-var TextField = require('./TextField.jsx');
 
 // we want touch enabled.
 React.initializeTouchEvents(true);
 
+// Main components:
+var Positionable = require('./Positionable.jsx');
+var TextField = require('./TextField.jsx');
+
+// Main page content for testing:
 var content = (<div>
   <Positionable>
     <TextField/>
@@ -19,6 +22,6 @@ var content = (<div>
   </Positionable>
 </div>);
 
+// and finally, load all that stuff.
 var target = document.getElementById('app');
-
 React.render(content, target);

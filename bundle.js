@@ -302,12 +302,15 @@ module.exports = {
 
 },{"react-onclickoutside":8}],6:[function(require,module,exports){
 var React = require("react");
-var Positionable = require('./Positionable.jsx');
-var TextField = require('./TextField.jsx');
 
 // we want touch enabled.
 React.initializeTouchEvents(true);
 
+// Main components:
+var Positionable = require('./Positionable.jsx');
+var TextField = require('./TextField.jsx');
+
+// Main page content for testing:
 var content = (React.createElement("div", null, 
   React.createElement(Positionable, null, 
     React.createElement(TextField, null)
@@ -322,8 +325,8 @@ var content = (React.createElement("div", null,
   )
 ));
 
+// and finally, load all that stuff.
 var target = document.getElementById('app');
-
 React.render(content, target);
 
 
