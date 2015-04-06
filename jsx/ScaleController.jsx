@@ -12,7 +12,6 @@ var RotationController = React.createClass({
   render: function() {
     return (
       <div className="scale-control"
-           /*onClick={this.toggle}*/
            onMouseDown={this.state.activated ? this.startReposition : false}
            onTouchStart={this.state.activated ? this.startReposition : false}>⇲</div>
     );

@@ -1,4 +1,5 @@
 var React = require("react");
+var ZIndexController = require("./ZIndexController.jsx");
 var RotationController = require("./RotationController.jsx");
 var ScaleController = require("./ScaleController.jsx");
 var classes = require("classnames");
@@ -11,7 +12,8 @@ var Positionable = React.createClass({
   getInitialState: function() {
     return {
       angle: 0,
-      scale: 1
+      scale: 1,
+      zIndex: 1
     };
   },
 
@@ -25,7 +27,8 @@ var Positionable = React.createClass({
         "rotate("+this.state.angle+"deg)",
         "scale("+this.state.scale+")"
       ].join(" "),
-      transformOrigin: "center"
+      transformOrigin: "center",
+      zIndex: this.state.zIndex
     };
 
     var className = classes({
@@ -35,17 +38,20 @@ var Positionable = React.createClass({
 
     return (
       <div style={style}
-           className={className}
-           /*onClick={this.toggle}*/
-           onMouseDown={this.state.activated ? this.startReposition : false}
-           onTouchStart={this.state.activated ? this.startReposition : false} >
-        <RotationController origin={this} onRotate={this.handleRotation}/>
-        <ScaleController    origin={this} onScale={this.handleScaling}/>
+       className={className}
+       onMouseDown={this.state.activated ? this.startReposition : false}
+       onTouchStart={this.state.activated ? this.startReposition : false}>
+
+        <ZIndexController   zIndex={1} onChange={this.handleZIndexChange}                 />
+        <RotationController activated="true" origin={this} onRotate={this.handleRotation} />
+        <ScaleController    activated="true" origin={this} onScale={this.handleScaling}   />
         {this.props.children}
+
       </div>
     );
   },
 
+  handleZIndexChange: function(z) { this.setState({ zIndex: z })},
   handleRotation: function(angle) { this.setState({ angle: (180 * angle / Math.PI) }); },
   handleScaling: function(scale) { this.setState({ scale: scale }); }
 

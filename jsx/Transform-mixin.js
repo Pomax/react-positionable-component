@@ -5,9 +5,15 @@ module.exports = {
   ],
 
   getInitialState: function() {
+    var stayactive = false;
+    if (typeof this.props.stayactive !== "undefined") {
+      stayactive = !!this.props.stayactive;
+    }
+
     return {
-      activated: true,
+      activated: false,
       active: false,
+      stayactive: stayactive,
       x: 0,
       y: 0,
       xMark: 0,
@@ -15,6 +21,14 @@ module.exports = {
       xDiff: 0,
       yDiff: 0
     };
+  },
+
+  componentWillMount: function() {
+    var activated = false;
+    if (typeof this.props.activated !== "undefined") {
+      activated = !!this.props.activated;
+    }
+    if(activated) this.setState({ activated: activated});
   },
 
   componentWillUnmount: function() {
@@ -66,7 +80,6 @@ module.exports = {
 
   endReposition: function(evt) {
     evt.stopPropagation();
-
     if(this.state.active) {
       this.setState({
         active: false,
