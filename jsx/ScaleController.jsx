@@ -37,11 +37,11 @@ var RotationController = React.createClass({
         // projection of vector 2 onto vector 1 involves
         // finding the projection scale factor, which is
         // exactly what we need:
-        var scale = (x2*nx1 + y2*ny1) / m1;
+        var scale = (x2*nx1 + y2*ny1)/m1;
         // communicate scale to owner
         this.setState(
-          { scale: scale/2 },
-          function() { this.props.onScale(this.state.base + scale); }
+          { scale: scale },
+          function() { this.props.onScale(this.state.base * scale); }
         );
       }
 
@@ -50,7 +50,8 @@ var RotationController = React.createClass({
 
   handleTransformEnd: function() {
     this.setState({
-      base: this.state.base * this.state.scale
+      base: this.state.base * this.state.scale,
+      scale: 1
     });
   }
 });

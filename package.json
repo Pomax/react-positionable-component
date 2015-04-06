@@ -9,11 +9,13 @@
     "react": "^0.13.1",
     "react-draggable": "^0.4.0",
     "react-onclickoutside": "^0.2.3",
-    "reactify": "^1.1.0"
+    "reactify": "^1.1.0",
+    "watch": "^0.15.0"
   },
   "devDependencies": {},
   "scripts": {
-    "build": "browserify -t reactify ./jsx/app.jsx -o bundle.js"
+    "build": "browserify -t reactify ./jsx/app.jsx -o bundle.js",
+    "watch": "watch \"npm run build\" ./jsx"
   },
   "repository": {
     "type": "git",

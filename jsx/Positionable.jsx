@@ -11,7 +11,7 @@ var Positionable = React.createClass({
   getInitialState: function() {
     return {
       angle: 0,
-      scale: "1"
+      scale: 1
     };
   },
 
