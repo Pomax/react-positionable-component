@@ -1,0 +1,49 @@
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+htlm, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.positionable {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+  background: inherit;
+  padding: 1em;
+}
+
+.positionable.activated {
+  background: rgba(0,0,0,0.2);
+}
+
+.rotation-control {
+  position: absolute;
+  top: -0.5em;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  cursor: pointer;
+  transform-origin: 0.5em 0.5em;
+  transform: rotate(45deg);
+}
+
+.scale-control {
+  position: absolute;
+  bottom: -0.2em;
+  right: -0.2em;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.2em;
+  cursor: pointer;
+}
