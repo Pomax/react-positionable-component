@@ -120,8 +120,8 @@ module.exports = {
   },
 
   stopListening: function() {
-    document.addEventListener("mousemove", this.reposition);
-    document.addEventListener("mouseup",   this.endReposition);
+    document.removeEventListener("mousemove", this.reposition);
+    document.removeEventListener("mouseup",   this.endReposition);
   },
 
 
