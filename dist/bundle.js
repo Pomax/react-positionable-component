@@ -17,6 +17,8 @@ var Log = React.createClass({displayName: "Log",
     var msg = evt.detail.msg;
     this.setState({
       messages: this.state.messages.concat([msg])
+    }, function() {
+      this.getDOMNode().scrollTo(0,99999999999999999);
     });
   },
 
