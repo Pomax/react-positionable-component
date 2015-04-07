@@ -152,12 +152,12 @@ module.exports = {
   },
 
   markLastTouchEvent: function() {
-    this.markLastTouchEvent = parseInt((new Date()).getTime(), 10);
+    this.lastTouchEvent = parseInt((new Date()).getTime(), 10);
   },
 
   checkTouchEnd: function() {
     var now = parseInt((new Date()).getTime(), 10);
-    if (now - this.markLastTouchEvent > 200) {
+    if (now - this.lastTouchEvent > 200) {
       this.endRepositionTouch();
     } else {
       setTimeout(this.checkTouchEnd.bind(this), 200);
@@ -212,6 +212,5 @@ module.exports = {
   stopListeningTouch: function() {
     document.removeEventListener("touchmove", this.repositionTouch);
     document.removeEventListener("touchend",  this.endRepositionTouch);
-    document.removeEventListener("touchcancel",  this.endRepositionTouch);
   }
 };
