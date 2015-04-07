@@ -26,4 +26,4 @@ MPL 2.0
 
 ## Demo
 
-http://pomax.github.io/react-positionable-component
+[http://pomax.github.io/react-positionable-component](http://pomax.github.io/react-positionable-component)
