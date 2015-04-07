@@ -473,7 +473,7 @@ module.exports = {
     if(this.state.active) {
       fixTouchEvent(evt);
       document.dispatchEvent (new CustomEvent("app:log", {detail: {
-        msg: "touch move: " + evt.clientX + "/" + evt.clientY
+        msg: "touch move: " + evt.clientX + "/" + evt.clientY + " d " + this.state.xMark +"/" + this.state.yMark
       }}));
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
