@@ -19,19 +19,19 @@ htlm, body {
   padding: 1em;
 }
 
-.positionable.activated:hover {
+.positionable.activated {
   background: rgba(0,255,0,0.2);
   border: 1px dashed rgba(0,0,0,0.4);
   margin: -1px;
   cursor: move;
 }
 
-.positionable.activated:hover * {
+.positionable.activated * {
   cursor: default;
 }
 
 .rotation-control { display: none; }
-.positionable:hover .rotation-control {
+.positionable .rotation-control {
   position: absolute;
   display: block;
   top: 0.1em;
@@ -45,7 +45,7 @@ htlm, body {
 }
 
 .scale-control { display: none; }
-.positionable:hover .scale-control {
+.positionable .scale-control {
   position: absolute;
   display: block;
   bottom: 0.1em;
@@ -57,7 +57,7 @@ htlm, body {
 }
 
 .zindex-controller { display: none; }
-.positionable:hover .zindex-controller {
+.positionable .zindex-controller {
   position: absolute;
   display: block;
   bottom: 0;
