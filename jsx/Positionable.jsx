@@ -76,15 +76,15 @@ var Positionable = React.createClass({
     );
   },
 
-/*
-  touchStart: function(evt) { fixTouchEvent(evt); document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " + evt.clientX + "/" + evt.clientY }})); },
-  touchMove: function(evt) { fixTouchEvent(evt);document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move " + evt.clientX + "/" + evt.clientY }})); },
-  touchEnd: function(evt) { fixTouchEvent(evt);document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end " + evt.clientX + "/" + evt.clientY }})); },
-*/
+  touchStart: function(evt) { fixTouchEvent(evt); document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
+  touchMove: function(evt) { fixTouchEvent(evt);document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
+  touchEnd: function(evt) { fixTouchEvent(evt);document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
 
+/*
   touchStart: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " + evt.clientX + "/" + evt.clientY }})); },
   touchMove: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move " + evt.clientX + "/" + evt.clientY }})); },
   touchEnd: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end " + evt.clientX + "/" + evt.clientY }})); },
+*/
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
   handleRotation: function(angle) { this.setState({ angle: angle }); },
