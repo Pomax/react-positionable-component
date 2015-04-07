@@ -133,11 +133,12 @@ module.exports = {
     evt.stopPropagation();
     evt.preventDefault();
 
-    if (this.state.activated) {
+//    if (this.state.activated) {
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start"}}));
 
       this.setState({
+        activated: true,
         active: true,
         xMark: evt.clientX,
         yMark: evt.clientY,
@@ -145,7 +146,7 @@ module.exports = {
         yDiff: 0
       });
       this.listenForRepositioningTouch();
-    }
+//    }
   },
 
   listenForRepositioningTouch: function() {
