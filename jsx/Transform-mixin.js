@@ -62,14 +62,20 @@ module.exports = {
   },
 
   startRepositionTouch: function(evt) {
-    alert("touch");
     evt.stopPropagation();
     evt.preventDefault();
+
+    this.startReposition(evt)
+
     this.listenForRepositioningTouch();
   },
 
   listenForRepositioningTouch: function() {
-    document.addEventListener("touchmove", this.reposition);
+    var reposition = this.reposition.bind(this);
+    document.addEventListener("touchmove", function(evt) {
+      alert("move");
+      reposition(evt);
+    });
     document.addEventListener("touchend",  this.endReposition);
   },
 
