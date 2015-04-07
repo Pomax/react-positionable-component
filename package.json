@@ -14,7 +14,7 @@
     "CSS",
     "transform"
   ],
-  "license": "MIT",
+  "license": "MPL 2.0",
   "bugs": {
     "url": "https://github.com/Pomax/react-positionable-component/issues"
   },
