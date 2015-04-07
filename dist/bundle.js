@@ -367,27 +367,27 @@ module.exports = {
   startRepositionTouch: function(evt) {
     evt.stopPropagation();
     evt.preventDefault();
-    fixTouchEvent(evt);
+
     this.setState({
+      activated: true,
       active: true
     }, function() {
+      fixTouchEvent(evt);
       this.startReposition(evt)
       this.listenForRepositioningTouch();
     });
   },
 
   listenForRepositioningTouch: function() {
-    var reposition = this.reposition.bind(this);
-    document.addEventListener("touchmove", function(evt) {
-      fixTouchEvent(evt);
-      alert("move:" + evt.clientX + "," + evt.clientY);
-      reposition(evt);
-    });
+    document.addEventListener("touchmove", this.reposition);
     document.addEventListener("touchend",  this.endReposition);
   },
 
   reposition: function(evt) {
     if(this.state.active) {
+      if(evt.indexOf("touch") !== -1) {
+        fixTouchEvent(evt);
+      }
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -406,6 +406,9 @@ module.exports = {
 
   endReposition: function(evt) {
     if(this.state.active) {
+      if(evt.indexOf("touch") !== -1) {
+        fixTouchEvent(evt);
+      }
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
@@ -418,12 +421,16 @@ module.exports = {
         this.handleTransformEnd();
       }
     }
+
+    if (evt.type.indexOf("touch") !== -1) {
+      evt.stopPropagation();
+      evt.preventDefault();
+    }
   },
 
   stopListening: function() {
     document.addEventListener("touchmove", this.reposition);
     document.addEventListener("mousemove", this.reposition);
-
     document.addEventListener("touchend",  this.endReposition);
     document.addEventListener("mouseup",   this.endReposition);
   },
