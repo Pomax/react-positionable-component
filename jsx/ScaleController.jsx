@@ -1,4 +1,6 @@
-var React = require("react");
+"use strict";
+
+var React = require("react/dist/react.min");
 
 var RotationController = React.createClass({
   mixins: [
@@ -19,31 +21,30 @@ var RotationController = React.createClass({
 
   handleTransform: function() {
     if (this.props.origin && this.props.onScale) {
-      with(this.state) {
-        var dimensions = this.props.origin.getDOMNode().getBoundingClientRect();
-        var xOffset = dimensions.left + (dimensions.right - dimensions.left)/2;
-        var yOffset = dimensions.top + (dimensions.bottom - dimensions.top)/2;
-        //  vector 1:
-        var x1 = xMark - xOffset,
-            y1 = yMark - yOffset;
-        //  vector 2:
-        var x2 = (xMark + xDiff) - xOffset,
-            y2 = (yMark + yDiff) - yOffset;
-        // normalised vector 1:
-        var m1 = Math.sqrt(x1*x1 + y1*y1),
-            nx1 = x1 / m1,
-            ny1 = y1 / m1;
-        // projection of vector 2 onto vector 1 involves
-        // finding the projection scale factor, which is
-        // exactly what we need:
-        var scale = (x2*nx1 + y2*ny1)/m1;
-        // communicate scale to owner
-        this.setState(
-          { scale: scale },
-          function() { this.props.onScale(this.state.base * scale); }
-        );
-      }
+      var s = this.state;
 
+      var dimensions = this.props.origin.getDOMNode().getBoundingClientRect();
+      var xOffset = dimensions.left + (dimensions.right - dimensions.left)/2;
+      var yOffset = dimensions.top + (dimensions.bottom - dimensions.top)/2;
+      //  vector 1:
+      var x1 = s.xMark - xOffset,
+          y1 = s.yMark - yOffset;
+      //  vector 2:
+      var x2 = (s.xMark + s.xDiff) - xOffset,
+          y2 = (s.yMark + s.yDiff) - yOffset;
+      // normalised vector 1:
+      var m1 = Math.sqrt(x1*x1 + y1*y1),
+          nx1 = x1 / m1,
+          ny1 = y1 / m1;
+      // projection of vector 2 onto vector 1 involves
+      // finding the projection scale factor, which is
+      // exactly what we need:
+      var scale = (x2*nx1 + y2*ny1)/m1;
+      // communicate scale to owner
+      this.setState(
+        { scale: scale },
+        function() { this.props.onScale(this.state.base * scale); }
+      );
     }
   },
 

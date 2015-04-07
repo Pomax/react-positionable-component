@@ -1,4 +1,6 @@
-var React = require("react");
+"use strict";
+
+var React = require("react/dist/react.min");
 
 var TextField = React.createClass({
   getInitialState: function() {

@@ -1,4 +1,7 @@
-var React = require("react");
+"use strict";
+
+var React = require("react/dist/react.min");
+
 var ZIndexController = require("./ZIndexController.jsx");
 var RotationController = require("./RotationController.jsx");
 var ScaleController = require("./ScaleController.jsx");
@@ -15,6 +18,11 @@ var Positionable = React.createClass({
       scale: 1,
       zIndex: 1
     };
+  },
+
+  componentWillMount: function() {
+    console.log("toggling");
+    this.toggle();
   },
 
   render: function() {

@@ -21,6 +21,13 @@ htlm, body {
 
 .positionable.activated:hover {
   background: rgba(0,255,0,0.2);
+  border: 1px dashed rgba(0,0,0,0.4);
+  margin: -1px;
+  cursor: move;
+}
+
+.positionable.activated:hover * {
+  cursor: default;
 }
 
 .rotation-control { display: none; }
@@ -56,6 +63,7 @@ htlm, body {
   bottom: 0;
   left: 1em;
   opacity: 0.7;
+  font-size: 90%;
 }
 
 .zmod {

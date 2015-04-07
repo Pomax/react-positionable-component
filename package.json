@@ -2,24 +2,11 @@
   "name": "react-positionable-component",
   "version": "1.0.0",
   "description": "A <Positionable> wrapper component to make arbitrary content easier to CSS transform",
+  "author": "Pomax",
   "main": "jsx/Positionable.jsx",
-  "dependencies": {
-    "browserify": "^9.0.7",
-    "classnames": "^1.2.0",
-    "react": "^0.13.1",
-    "react-draggable": "^0.4.0",
-    "react-onclickoutside": "^0.2.3",
-    "reactify": "^1.1.0",
-    "watch": "^0.15.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "build": "browserify -t reactify ./jsx/app.jsx -o bundle.js",
-    "watch": "watch \"npm run build\" ./jsx"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pomax/react-positionable-component.git"
+    "url": "https://github.com/Pomax/react-positionable-component"
   },
   "keywords": [
     "react",
@@ -27,10 +14,28 @@
     "CSS",
     "transform"
   ],
-  "author": "Pomax",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Pomax/react-positionable-component/issues"
   },
-  "homepage": "https://github.com/Pomax/react-positionable-component"
+  "homepage": "https://github.com/Pomax/react-positionable-component",
+  "scripts": {
+    "build:pos": "browserify -t reactify ./jsx/Positionable.jsx | uglifyjs --screw-ie8 > ./dist/positionable.js",
+    "build:app": "browserify -t reactify ./app/app.jsx -o ./dist/bundle.js",
+    "watch:pos": "watch \"npm run build:pos\" ./jsx",
+    "watch:app": "watch \"npm run build:app\" ./app",
+    "dev": "parallelshell \"npm run watch:pos\" \"npm run watch:app\" \"live-server\""
+  },
+  "dependencies": {
+    "classnames": "^1.2.0",
+    "react": "^0.13.1",
+    "react-draggable": "^0.4.0",
+    "react-onclickoutside": "^0.2.3"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.7",
+    "parallelshell": "^1.1.1",
+    "reactify": "^1.1.0",
+    "watch": "^0.15.0"
+  }
 }

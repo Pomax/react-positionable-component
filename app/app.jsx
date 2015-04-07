@@ -1,15 +1,18 @@
-var React = require("react");
+"use strict";
+
+var React = require("react/dist/react.min");
 
 // we want touch enabled.
 React.initializeTouchEvents(true);
 
 // Main components:
-var Positionable = require('./Positionable.jsx');
+var Positionable = require('../jsx/Positionable.jsx');
 var TextField = require('./TextField.jsx');
 
 // Main page content for testing:
 var content = (
   <article>
+
     <h1>Draggable, resizable, rotate... rota... rotateable? Whatever: manipulable elements</h1>
 
     <p>Grab any element that lights up green when you mouseover, and try manipulating it.</p>
@@ -25,6 +28,7 @@ var content = (
     <div><Positionable activated="true" stayactive="true">
       <img src="http://www.myfacewhen.net/uploads/3578-all-the-things.jpg" alt="all the things" />
     </Positionable></div>
+
   </article>
 );
 
