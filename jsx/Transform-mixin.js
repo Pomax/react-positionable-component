@@ -155,6 +155,9 @@ module.exports = {
   },
 
   repositionTouch: function(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
     if(this.state.active) {
       fixTouchEvent(evt);
 
@@ -169,11 +172,12 @@ module.exports = {
         }
       });
     }
-    evt.stopPropagation();
-    evt.preventDefault();
   },
 
   endRepositionTouch: function(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
     if(this.state.active) {
       fixTouchEvent(evt);
 
@@ -192,8 +196,6 @@ module.exports = {
         this.handleTransformEnd();
       }
     }
-    evt.stopPropagation();
-    evt.preventDefault();
   },
 
   stopListeningTouch: function() {
