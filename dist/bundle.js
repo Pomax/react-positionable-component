@@ -105,6 +105,13 @@ React.render(content, target);
 
 var React = require("react/dist/react.min");
 
+
+function fixTouchEvent(evt) {
+  evt.clientX = parseInt( evt.touches[0].pageX, 10);
+  evt.clientY = parseInt( evt.touches[0].pageY, 10);
+}
+
+
 var ZIndexController = require("./ZIndexController.jsx");
 var RotationController = require("./RotationController.jsx");
 var ScaleController = require("./ScaleController.jsx");
@@ -172,9 +179,9 @@ var Positionable = React.createClass({displayName: "Positionable",
     );
   },
 
-  touchStart: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start" }})); },
-  touchMove: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move" }})); },
-  touchEnd: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end" }})); },
+  touchStart: function(evt) { fixTouchEvent(evt); document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " + evt.clientX + "/" + evt.clientY }})); },
+  touchMove: function(evt) { fixTouchEvent(evt);document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move " + evt.clientX + "/" + evt.clientY }})); },
+  touchEnd: function(evt) { fixTouchEvent(evt);document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end " + evt.clientX + "/" + evt.clientY }})); },
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
   handleRotation: function(angle) { this.setState({ angle: angle }); },
