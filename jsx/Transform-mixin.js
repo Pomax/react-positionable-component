@@ -124,9 +124,6 @@ module.exports = {
    */
 
   startRepositionTouch: function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
     if (this.state.activated) {
       fixTouchEvent(evt);
       document.dispatchEvent (new CustomEvent("app:log", {detail: {
@@ -143,9 +140,6 @@ module.exports = {
   },
 
   repositionTouch: function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
     if(this.state.active) {
       fixTouchEvent(evt);
       document.dispatchEvent (new CustomEvent("app:log", {detail: {
@@ -163,9 +157,6 @@ module.exports = {
   },
 
   endRepositionTouch: function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
     if(this.state.active) {
       fixTouchEvent(evt);
       document.dispatchEvent (new CustomEvent("app:log", {detail: {
