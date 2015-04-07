@@ -323,8 +323,9 @@ module.exports = RotationController;
 "use strict";
 
 function fixTouchEvent(evt) {
-  evt.clientX = evt.clientX || evt.changedTouches[0].pageX;
-  evt.clientY = evt.clientY || evt.changedTouches[0].pageY;
+  evt.clientX = evt.touches[0].pageX;
+  evt.clientY = evt.touches[0].pageY;
+  document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: evt.clientX + "/" + evt.clientY }}));
 }
 
 
@@ -447,6 +448,9 @@ module.exports = {
   },
 
 
+
+
+
   /**
    * TOUCH EVENT HANDLING
    */
@@ -457,11 +461,7 @@ module.exports = {
 
     if (this.state.activated) {
       fixTouchEvent(evt);
-
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start"}}));
-      this.markLastTouchEvent;
-      this.checkTouchEnd();
-
       this.setState({
         active: true,
         xMark: evt.clientX,
@@ -469,38 +469,16 @@ module.exports = {
         xDiff: 0,
         yDiff: 0
       });
-      this.listenForRepositioningTouch();
     }
-  },
-
-  markLastTouchEvent: function() {
-    this.lastTouchEvent = parseInt((new Date()).getTime(), 10);
-  },
-
-  checkTouchEnd: function() {
-    var now = parseInt((new Date()).getTime(), 10);
-    if (now - this.lastTouchEvent > 200) {
-      this.endRepositionTouch();
-    } else {
-      setTimeout(this.checkTouchEnd.bind(this), 200);
-    }
-  },
-
-  listenForRepositioningTouch: function() {
-    document.addEventListener("touchmove", this.repositionTouch);
-    document.addEventListener("touchend",  this.endRepositionTouch);
   },
 
   repositionTouch: function(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.markLastTouchEvent();
 
     if(this.state.active) {
       fixTouchEvent(evt);
-
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move"}}));
-
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -512,11 +490,14 @@ module.exports = {
     }
   },
 
-  endRepositionTouch: function() {
+  endRepositionTouch: function(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+
     if(this.state.active) {
-
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end"}}));
-
+      fixTouchEvent(evt);
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end ("+evt.type+")"}}));
+      fixTouchEvent(evt);
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
@@ -529,11 +510,6 @@ module.exports = {
         this.handleTransformEnd();
       }
     }
-  },
-
-  stopListeningTouch: function() {
-    document.removeEventListener("touchmove", this.repositionTouch);
-    document.removeEventListener("touchend",  this.endRepositionTouch);
   }
 };
 
