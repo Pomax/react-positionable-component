@@ -73,7 +73,7 @@ module.exports = {
   listenForRepositioningTouch: function() {
     var reposition = this.reposition.bind(this);
     document.addEventListener("touchmove", function(evt) {
-      alert("move");
+      alert("move:" + evt.clientX + "," + evt.clientY);
       reposition(evt);
     });
     document.addEventListener("touchend",  this.endReposition);
