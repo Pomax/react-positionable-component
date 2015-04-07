@@ -1,8 +1,8 @@
 "use strict";
 
 function fixTouchEvent(evt) {
-  evt.clientX = evt.clientX || evt.touches[0].clientX || evt.touches[0].pageX;
-  evt.clientY = evt.clientY || evt.touches[0].clientY || evt.touches[0].pageY;
+  evt.clientX = evt.clientX || evt.targetTouches[0].clientX || evt.touches[0].pageX;
+  evt.clientY = evt.clientY || evt.targetTouches[0].clientY || evt.touches[0].pageY;
 }
 
 
