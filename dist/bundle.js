@@ -279,6 +279,7 @@ module.exports = RotationController;
 "use strict";
 
 function fixTouchEvent(evt) {
+  /*
     var winPageX = window.pageXOffset,
         winPageY = window.pageYOffset,
         x = evt.clientX,
@@ -296,8 +297,9 @@ function fixTouchEvent(evt) {
         x = evt.pageX - winPageX;
         y = evt.pageY - winPageY;
     }
-    evt.clientX = x;
-    evt.clientY = y;
+  */
+  evt.clientX = evt.clientX || evt.touches[0].clientX || evt.touches[0].pageX;
+  evt.clientY = evt.clientY || evt.touches[0].clientY || evt.touches[0].pageY;
 }
 
 
