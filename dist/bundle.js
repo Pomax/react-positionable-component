@@ -491,12 +491,12 @@ module.exports = {
   repositionTouch: function(evt) {
     evt.preventDefault();
     evt.stopPropagation();
+    this.markLastTouchEvent();
 
     if(this.state.active) {
       fixTouchEvent(evt);
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move"}}));
-      this.markLastTouchEvent();
 
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
