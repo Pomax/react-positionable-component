@@ -405,7 +405,7 @@ module.exports = {
     evt.stopPropagation();
     if(this.state.active) {
 
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "mouse reposition"}}));
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "mouse move"}}));
 
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
@@ -453,6 +453,7 @@ module.exports = {
     evt.preventDefault();
 
     if (this.state.activated) {
+      fixTouchEvent(evt);
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start"}}));
 
@@ -474,10 +475,10 @@ module.exports = {
 
   repositionTouch: function(evt) {
     if(this.state.active) {
+      fixTouchEvent(evt);
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move"}}));
 
-      fixTouchEvent(evt);
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -493,6 +494,7 @@ module.exports = {
 
   endRepositionTouch: function(evt) {
     if(this.state.active) {
+      fixTouchEvent(evt);
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end"}}));
 
