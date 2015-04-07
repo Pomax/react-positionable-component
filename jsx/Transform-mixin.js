@@ -107,7 +107,7 @@ module.exports = {
 
   reposition: function(evt) {
     if(this.state.active) {
-      if(evt.indexOf("touch") !== -1) {
+      if(evt.type.indexOf("touch") !== -1) {
         fixTouchEvent(evt);
       }
       this.setState({
@@ -128,7 +128,7 @@ module.exports = {
 
   endReposition: function(evt) {
     if(this.state.active) {
-      if(evt.indexOf("touch") !== -1) {
+      if(evt.type.indexOf("touch") !== -1) {
         fixTouchEvent(evt);
       }
       this.setState({
