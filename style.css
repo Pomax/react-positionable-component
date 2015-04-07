@@ -74,5 +74,6 @@ htlm, body {
 .log {
   float: right;
   height: 80vh;
+  width: 10em;
   overflow: auto;
 }

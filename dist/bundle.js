@@ -150,7 +150,8 @@ var Positionable = React.createClass({displayName: "Positionable",
     return (
       React.createElement("div", {style: style, 
        className: className, 
-       onMouseDown: this.state.activated ? this.startReposition : false}, 
+       onMouseDown: this.state.activated ? this.startReposition : false, 
+       onTouchStart: this.state.activated ? this.startRepositionTouch : false}, 
 
         React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
         React.createElement(ScaleController, {scale: this.state.scale, activated: "true", origin: this, onScale: this.handleScaling}), 
@@ -159,18 +160,6 @@ var Positionable = React.createClass({displayName: "Positionable",
         this.props.children
       )
     );
-  },
-
-  componentDidMount: function() {
-    var div = this.getDOMNode();
-    var self = this;
-    div.addEventListener("touchstart", function(evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
-      if (self.state.activated) {
-        self.startRepositionTouch(evt);
-      }
-    });
   },
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
@@ -467,6 +456,8 @@ module.exports = {
       fixTouchEvent(evt);
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start"}}));
+      this.markLastTouchEvent;
+      this.checkTouchEnd();
 
       this.setState({
         active: true,
@@ -476,6 +467,20 @@ module.exports = {
         yDiff: 0
       });
       this.listenForRepositioningTouch();
+
+    }
+  },
+
+  markLastTouchEvent: function() {
+    this.markLastTouchEvent = Date.now();
+  },
+
+  checkTouchEnd: function() {
+    var now = Date.now();
+    if (now - this.markLastTouchEvent > 200) {
+      this.endRepositionTouch();
+    } else {
+      setTimeout(this.checkTouchEnd.bind(this), 200);
     }
   },
 
@@ -493,6 +498,7 @@ module.exports = {
       fixTouchEvent(evt);
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move"}}));
+      this.markLastTouchEvent();
 
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
@@ -505,16 +511,11 @@ module.exports = {
     }
   },
 
-  endRepositionTouch: function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
+  endRepositionTouch: function() {
     if(this.state.active) {
-      fixTouchEvent(evt);
 
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end ("+evt.type+")"}}));
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end"}}));
 
-      fixTouchEvent(evt);
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,

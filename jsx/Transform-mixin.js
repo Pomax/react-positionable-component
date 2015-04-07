@@ -137,6 +137,8 @@ module.exports = {
       fixTouchEvent(evt);
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start"}}));
+      this.markLastTouchEvent;
+      this.checkTouchEnd();
 
       this.setState({
         active: true,
@@ -146,6 +148,20 @@ module.exports = {
         yDiff: 0
       });
       this.listenForRepositioningTouch();
+
+    }
+  },
+
+  markLastTouchEvent: function() {
+    this.markLastTouchEvent = Date.now();
+  },
+
+  checkTouchEnd: function() {
+    var now = Date.now();
+    if (now - this.markLastTouchEvent > 200) {
+      this.endRepositionTouch();
+    } else {
+      setTimeout(this.checkTouchEnd.bind(this), 200);
     }
   },
 
@@ -163,6 +179,7 @@ module.exports = {
       fixTouchEvent(evt);
 
       document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move"}}));
+      this.markLastTouchEvent();
 
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
@@ -175,16 +192,11 @@ module.exports = {
     }
   },
 
-  endRepositionTouch: function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
+  endRepositionTouch: function() {
     if(this.state.active) {
-      fixTouchEvent(evt);
 
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end ("+evt.type+")"}}));
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end"}}));
 
-      fixTouchEvent(evt);
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
