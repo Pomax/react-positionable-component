@@ -3,7 +3,6 @@
 function fixTouchEvent(evt) {
   evt.clientX = evt.touches[0].pageX;
   evt.clientY = evt.touches[0].pageY;
-  document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: evt.clientX + "/" + evt.clientY }}));
 }
 
 
@@ -64,9 +63,6 @@ module.exports = {
   startReposition: function(evt) {
     evt.stopPropagation();
     if (this.state.activated) {
-
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "mouse start"}}));
-
       this.setState({
         active: true,
         xMark: evt.clientX,
@@ -86,9 +82,6 @@ module.exports = {
   reposition: function(evt) {
     evt.stopPropagation();
     if(this.state.active) {
-
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "mouse move"}}));
-
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -103,9 +96,6 @@ module.exports = {
   endReposition: function(evt) {
     evt.stopPropagation();
     if(this.state.active) {
-
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "mouse end"}}));
-
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
@@ -139,7 +129,9 @@ module.exports = {
 
     if (this.state.activated) {
       fixTouchEvent(evt);
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start"}}));
+      document.dispatchEvent (new CustomEvent("app:log", {detail: {
+        msg: "touch start: " + evt.clientX + "/" + evt.clientY
+      }}));
       this.setState({
         active: true,
         xMark: evt.clientX,
@@ -156,7 +148,9 @@ module.exports = {
 
     if(this.state.active) {
       fixTouchEvent(evt);
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move"}}));
+      document.dispatchEvent (new CustomEvent("app:log", {detail: {
+        msg: "touch move: " + evt.clientX + "/" + evt.clientY
+      }}));
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -174,8 +168,9 @@ module.exports = {
 
     if(this.state.active) {
       fixTouchEvent(evt);
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end ("+evt.type+")"}}));
-      fixTouchEvent(evt);
+      document.dispatchEvent (new CustomEvent("app:log", {detail: {
+        msg: "touch end: " + evt.clientX + "/" + evt.clientY
+      }}));
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
