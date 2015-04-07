@@ -471,6 +471,7 @@ module.exports = {
   listenForRepositioningTouch: function() {
     document.addEventListener("touchmove", this.repositionTouch);
     document.addEventListener("touchend",  this.endRepositionTouch);
+    document.addEventListener("touchcancel",  this.endRepositionTouch);
   },
 
   repositionTouch: function(evt) {
@@ -500,7 +501,7 @@ module.exports = {
     if(this.state.active) {
       fixTouchEvent(evt);
 
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end"}}));
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end ("+evt.type+")"}}));
 
       fixTouchEvent(evt);
       this.setState({
@@ -520,6 +521,7 @@ module.exports = {
   stopListeningTouch: function() {
     document.removeEventListener("touchmove", this.repositionTouch);
     document.removeEventListener("touchend",  this.endRepositionTouch);
+    document.removeEventListener("touchcancel",  this.endRepositionTouch);
   }
 };
 
