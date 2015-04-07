@@ -518,8 +518,8 @@ module.exports = {
   },
 
   stopListeningTouch: function() {
-    document.addEventListener("touchmove", this.repositionTouch);
-    document.addEventListener("touchend",  this.endRepositionTouch);
+    document.removeEventListener("touchmove", this.repositionTouch);
+    document.removeEventListener("touchend",  this.endRepositionTouch);
   }
 };
 
