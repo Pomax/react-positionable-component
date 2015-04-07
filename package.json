@@ -29,6 +29,7 @@
   "dependencies": {
     "classnames": "^1.2.0",
     "react": "^0.13.1",
+    "react-hammerjs": "^0.2.1",
     "react-onclickoutside": "^0.2.3"
   },
   "devDependencies": {

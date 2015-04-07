@@ -151,7 +151,12 @@ var Positionable = React.createClass({displayName: "Positionable",
       React.createElement("div", {style: style, 
        className: className, 
        onMouseDown: this.state.activated ? this.startReposition : false, 
-       onTouchStart: this.state.activated ? this.startRepositionTouch : false}, 
+       /*onTouchStart={this.state.activated ? this.startRepositionTouch : false}*/
+
+       onTouchStart: this.touchStart, 
+       onTouchMove: this.touchMove, 
+       onTouchEnd: this.touchEnd
+      }, 
 
         React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
         React.createElement(ScaleController, {scale: this.state.scale, activated: "true", origin: this, onScale: this.handleScaling}), 
@@ -160,6 +165,16 @@ var Positionable = React.createClass({displayName: "Positionable",
         this.props.children
       )
     );
+  },
+
+  touchStart: function(evt) {
+     document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start"}}));
+  },
+  touchMove: function(evt) {
+     document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move"}}));
+  },
+  touchEnd: function(evt) {
+     document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end"}}));
   },
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
