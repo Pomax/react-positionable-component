@@ -70,3 +70,9 @@ htlm, body {
   cursor: pointer;
   opacity: 0.5;
 }
+
+.log {
+  float: right;
+  height: 80vh;
+  overflow: auto;
+}

@@ -1,25 +1,6 @@
 "use strict";
 
 function fixTouchEvent(evt) {
-  /*
-    var winPageX = window.pageXOffset,
-        winPageY = window.pageYOffset,
-        x = evt.clientX,
-        y = evt.clientY;
-    if (evt.pageY === 0 && Math.floor(y) > Math.floor(evt.pageY) ||
-        evt.pageX === 0 && Math.floor(x) > Math.floor(evt.pageX)) {
-        // iOS4 clientX/clientY have the value that should have been
-        // in pageX/pageY. While pageX/page/ have the value 0
-        x = x - winPageX;
-        y = y - winPageY;
-    } else if (y < (evt.pageY - winPageY) || x < (evt.pageX - winPageX) ) {
-        // Some Android browsers have totally bogus values for clientX/Y
-        // when scrolling/zooming a page. Detectable since clientX/clientY
-        // should never be smaller than pageX/pageY minus page scroll
-        x = evt.pageX - winPageX;
-        y = evt.pageY - winPageY;
-    }
-  */
   evt.clientX = evt.clientX || evt.touches[0].clientX || evt.touches[0].pageX;
   evt.clientY = evt.clientY || evt.touches[0].clientY || evt.touches[0].pageY;
 }
@@ -30,6 +11,13 @@ module.exports = {
   mixins: [
     require("react-onclickoutside")
   ],
+
+  handleClickOutside: function(evt) {
+    if(this.state.repositioning) {
+      this.endReposition();
+      this.endRepositionTouch();
+    }
+  },
 
   getInitialState: function() {
     var stayactive = false;
@@ -68,8 +56,16 @@ module.exports = {
     });
   },
 
+  /**
+   * MOUSE EVENT HANDLING
+   */
+
   startReposition: function(evt) {
+    evt.stopPropagation();
     if (this.state.activated) {
+
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "mouse start"}}));
+
       this.setState({
         active: true,
         xMark: evt.clientX,
@@ -86,30 +82,12 @@ module.exports = {
     document.addEventListener("mouseup",   this.endReposition);
   },
 
-  startRepositionTouch: function(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-
-    this.setState({
-      activated: true,
-      active: true
-    }, function() {
-      fixTouchEvent(evt);
-      this.startReposition(evt)
-      this.listenForRepositioningTouch();
-    });
-  },
-
-  listenForRepositioningTouch: function() {
-    document.addEventListener("touchmove", this.reposition);
-    document.addEventListener("touchend",  this.endReposition);
-  },
-
   reposition: function(evt) {
+    evt.stopPropagation();
     if(this.state.active) {
-      if(evt.type.indexOf("touch") !== -1) {
-        fixTouchEvent(evt);
-      }
+
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "mouse reposition"}}));
+
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -119,18 +97,14 @@ module.exports = {
         }
       });
     }
-
-    if (evt.type.indexOf("touch") !== -1) {
-      evt.stopPropagation();
-      evt.preventDefault();
-    }
   },
 
   endReposition: function(evt) {
+    evt.stopPropagation();
     if(this.state.active) {
-      if(evt.type.indexOf("touch") !== -1) {
-        fixTouchEvent(evt);
-      }
+
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "mouse end"}}));
+
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
@@ -143,23 +117,85 @@ module.exports = {
         this.handleTransformEnd();
       }
     }
-
-    if (evt.type.indexOf("touch") !== -1) {
-      evt.stopPropagation();
-      evt.preventDefault();
-    }
   },
 
   stopListening: function() {
-    document.addEventListener("touchmove", this.reposition);
     document.addEventListener("mousemove", this.reposition);
-    document.addEventListener("touchend",  this.endReposition);
     document.addEventListener("mouseup",   this.endReposition);
   },
 
-  handleClickOutside: function(evt) {
-    if(this.state.repositioning) {
-      this.endReposition();
+
+  /**
+   * TOUCH EVENT HANDLING
+   */
+
+  startRepositionTouch: function(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    if (this.state.activated) {
+
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start"}}));
+
+      this.setState({
+        active: true,
+        xMark: evt.clientX,
+        yMark: evt.clientY,
+        xDiff: 0,
+        yDiff: 0
+      });
+      this.listenForRepositioningTouch();
     }
+  },
+
+  listenForRepositioningTouch: function() {
+    document.addEventListener("touchmove", this.repositionTouch);
+    document.addEventListener("touchend",  this.endRepositionTouch);
+  },
+
+  repositionTouch: function(evt) {
+    if(this.state.active) {
+
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move"}}));
+
+      fixTouchEvent(evt);
+      this.setState({
+        xDiff: evt.clientX - this.state.xMark,
+        yDiff: evt.clientY - this.state.yMark
+      }, function() {
+        if (this.handleTransform) {
+          this.handleTransform();
+        }
+      });
+    }
+    evt.stopPropagation();
+    evt.preventDefault();
+  },
+
+  endRepositionTouch: function(evt) {
+    if(this.state.active) {
+
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end"}}));
+
+      fixTouchEvent(evt);
+      this.setState({
+        active: false,
+        x: this.state.x + this.state.xDiff,
+        y: this.state.y + this.state.yDiff,
+        xDiff: 0,
+        yDiff: 0
+      });
+      this.stopListeningTouch();
+      if (this.handleTransformEnd) {
+        this.handleTransformEnd();
+      }
+    }
+    evt.stopPropagation();
+    evt.preventDefault();
+  },
+
+  stopListeningTouch: function() {
+    document.addEventListener("touchmove", this.repositionTouch);
+    document.addEventListener("touchend",  this.endRepositionTouch);
   }
 };

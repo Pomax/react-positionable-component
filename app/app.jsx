@@ -5,10 +5,13 @@ var React = require("react/dist/react.min");
 // Main components:
 var Positionable = require('../jsx/Positionable.jsx');
 var TextField = require('./TextField.jsx');
+var Log = require('./Log.jsx');
 
 // Main page content for testing:
 var content = (
   <article>
+
+    <Log />
 
     <h1>Draggable, resizable, rotate... rota... rotateable? Whatever: manipulable elements</h1>
 
