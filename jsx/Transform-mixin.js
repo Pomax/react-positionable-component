@@ -1,27 +1,25 @@
 "use strict";
 
-function fixTouch (touch) {
+function fixTouchEvent(evt) {
     var winPageX = window.pageXOffset,
         winPageY = window.pageYOffset,
-        x = touch.clientX,
-        y = touch.clientY;
-    if (touch.pageY === 0 && Math.floor(y) > Math.floor(touch.pageY) ||
-        touch.pageX === 0 && Math.floor(x) > Math.floor(touch.pageX)) {
+        x = evt.clientX,
+        y = evt.clientY;
+    if (evt.pageY === 0 && Math.floor(y) > Math.floor(evt.pageY) ||
+        evt.pageX === 0 && Math.floor(x) > Math.floor(evt.pageX)) {
         // iOS4 clientX/clientY have the value that should have been
         // in pageX/pageY. While pageX/page/ have the value 0
         x = x - winPageX;
         y = y - winPageY;
-    } else if (y < (touch.pageY - winPageY) || x < (touch.pageX - winPageX) ) {
+    } else if (y < (evt.pageY - winPageY) || x < (evt.pageX - winPageX) ) {
         // Some Android browsers have totally bogus values for clientX/Y
         // when scrolling/zooming a page. Detectable since clientX/clientY
         // should never be smaller than pageX/pageY minus page scroll
-        x = touch.pageX - winPageX;
-        y = touch.pageY - winPageY;
+        x = evt.pageX - winPageX;
+        y = evt.pageY - winPageY;
     }
-    return {
-        clientX:    x,
-        clientY:    y
-    };
+    evt.clientX = x;
+    evt.clientY = y;
 }
 
 
@@ -89,11 +87,7 @@ module.exports = {
   startRepositionTouch: function(evt) {
     evt.stopPropagation();
     evt.preventDefault();
-
-    var clientXY = fixTouch(evt);
-    evt.clientX = clientXY.x;
-    evt.clientY = clientXY.y;
-
+    fixTouchEvent(evt);
     this.setState({
       active: true
     }, function() {
@@ -105,6 +99,7 @@ module.exports = {
   listenForRepositioningTouch: function() {
     var reposition = this.reposition.bind(this);
     document.addEventListener("touchmove", function(evt) {
+      fixTouchEvent(evt);
       alert("move:" + evt.clientX + "," + evt.clientY);
       reposition(evt);
     });
