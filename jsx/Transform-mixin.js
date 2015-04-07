@@ -177,11 +177,11 @@ module.exports = {
         y: this.state.y + this.state.yDiff,
         xDiff: 0,
         yDiff: 0
+      }, function() {
+        if (this.handleTransformEnd) {
+          this.handleTransformEnd();
+        }
       });
-      this.stopListeningTouch();
-      if (this.handleTransformEnd) {
-        this.handleTransformEnd();
-      }
     }
   }
 };
