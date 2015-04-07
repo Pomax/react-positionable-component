@@ -153,11 +153,11 @@ module.exports = {
   },
 
   markLastTouchEvent: function() {
-    this.markLastTouchEvent = Date.now();
+    this.markLastTouchEvent = parseInt((new Date()).getTime(), 10);
   },
 
   checkTouchEnd: function() {
-    var now = Date.now();
+    var now = parseInt((new Date()).getTime(), 10);
     if (now - this.markLastTouchEvent > 200) {
       this.endRepositionTouch();
     } else {
