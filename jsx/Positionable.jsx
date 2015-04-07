@@ -49,8 +49,8 @@ var Positionable = React.createClass({
     return (
       <div style={style}
        className={className}
-       onMouseDown={this.state.activated ? this.startReposition : false}
-       onTouchStart={this.state.activated ? this.startReposition : false}>
+       onTouchStart={this.state.activated ? this.startReposition : false}
+       onMouseDown={this.state.activated ? this.startReposition : false}>
 
         <ZIndexController   zIndex={1} onChange={this.handleZIndexChange}                 />
         <RotationController angle={this.state.angle} activated="true" origin={this} onRotate={this.handleRotation} />

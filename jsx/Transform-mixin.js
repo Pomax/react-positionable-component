@@ -44,8 +44,6 @@ module.exports = {
   },
 
   startReposition: function(evt) {
-    evt.stopPropagation();
-
     if (this.state.activated) {
       this.setState({
         active: true,
@@ -55,6 +53,11 @@ module.exports = {
         yDiff: 0
       });
       this.listenForRepositioning();
+    }
+
+    if (evt.type.indexOf("touch") !== -1) {
+      evt.stopPropagation();
+      evt.preventDefault();
     }
   },
 
@@ -80,7 +83,7 @@ module.exports = {
 
     if (evt.type.indexOf("touch") !== -1) {
       evt.stopPropagation();
-      evt.stopPropagation();
+      evt.preventDefault();
     }
   },
 
@@ -101,7 +104,7 @@ module.exports = {
 
     if (evt.type.indexOf("touch") !== -1) {
       evt.stopPropagation();
-      evt.stopPropagation();
+      evt.preventDefault();
     }
   },
 
