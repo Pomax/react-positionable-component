@@ -123,8 +123,27 @@ var Positionable = React.createClass({displayName: "Positionable",
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
   handleRotation: function(angle) { this.setState({ angle: angle }); },
-  handleScaling: function(scale) { this.setState({ scale: scale }); }
+  handleScaling: function(scale) { this.setState({ scale: scale }); },
 
+  // Always useful to be able to extract this information, in case it needs
+  // to be stored for future restoring.
+  getTransform: function() {
+    return {
+      x: this.state.x,
+      y: this.state.y,
+      angle: this.state.angle,
+      scale: this.state.scale
+    };
+  },
+
+  setTransform: function(obj) {
+    this.setState({
+      x: obj.x || 0,
+      y: obj.y || 0,
+      angle: obj.angle || 0,
+      scale: obj.scale || 1
+    });
+  }
 });
 
 module.exports = Positionable;
@@ -318,15 +337,14 @@ module.exports = {
   },
 
   listenForRepositioning: function() {
-    document.addEventListener("mousemove", this.reposition);
     document.addEventListener("touchmove", this.reposition);
-    document.addEventListener("mouseup",   this.endReposition);
+    document.addEventListener("mousemove", this.reposition);
+
     document.addEventListener("touchend",  this.endReposition);
+    document.addEventListener("mouseup",   this.endReposition);
   },
 
   reposition: function(evt) {
-    evt.stopPropagation();
-
     if(this.state.active) {
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
@@ -337,10 +355,14 @@ module.exports = {
         }
       });
     }
+
+    if (evt.type.indexOf("touch") !== -1) {
+      evt.stopPropagation();
+      evt.stopPropagation();
+    }
   },
 
   endReposition: function(evt) {
-    evt.stopPropagation();
     if(this.state.active) {
       this.setState({
         active: false,
@@ -354,13 +376,19 @@ module.exports = {
         this.handleTransformEnd();
       }
     }
+
+    if (evt.type.indexOf("touch") !== -1) {
+      evt.stopPropagation();
+      evt.stopPropagation();
+    }
   },
 
   stopListening: function() {
-    document.addEventListener("mousemove", this.reposition);
     document.addEventListener("touchmove", this.reposition);
-    document.addEventListener("mouseup",   this.endReposition);
+    document.addEventListener("mousemove", this.reposition);
+
     document.addEventListener("touchend",  this.endReposition);
+    document.addEventListener("mouseup",   this.endReposition);
   },
 
   handleClickOutside: function(evt) {

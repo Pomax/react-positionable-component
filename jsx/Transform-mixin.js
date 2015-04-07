@@ -67,8 +67,6 @@ module.exports = {
   },
 
   reposition: function(evt) {
-    evt.stopPropagation();
-
     if(this.state.active) {
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
@@ -78,13 +76,15 @@ module.exports = {
           this.handleTransform();
         }
       });
-      e.stopPropagation();
+    }
+
+    if (evt.type.indexOf("touch") !== -1) {
+      evt.stopPropagation();
+      evt.stopPropagation();
     }
   },
 
   endReposition: function(evt) {
-    evt.stopPropagation();
-
     if(this.state.active) {
       this.setState({
         active: false,
@@ -97,6 +97,10 @@ module.exports = {
       if (this.handleTransformEnd) {
         this.handleTransformEnd();
       }
+    }
+
+    if (evt.type.indexOf("touch") !== -1) {
+      evt.stopPropagation();
       evt.stopPropagation();
     }
   },
