@@ -109,14 +109,14 @@ var Positionable = React.createClass({displayName: "Positionable",
     return (
       React.createElement("div", {style: style, 
        className: className, 
-       onMouseDown: this.state.activated ? this.startReposition : false, 
-       onTouchStart: this.state.activated ? this.startReposition : false}, 
+       onTouchStart: this.state.activated ? this.startRepositionTouch : false, 
+       onMouseDown: this.state.activated ? this.startReposition : false}, 
 
-        React.createElement(ZIndexController, {zIndex: 1, onChange: this.handleZIndexChange}), 
         React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
         React.createElement(ScaleController, {scale: this.state.scale, activated: "true", origin: this, onScale: this.handleScaling}), 
-        this.props.children
+        React.createElement(ZIndexController, {zIndex: 1, onChange: this.handleZIndexChange}), 
 
+        this.props.children
       )
     );
   },
@@ -322,8 +322,6 @@ module.exports = {
   },
 
   startReposition: function(evt) {
-    evt.stopPropagation();
-
     if (this.state.activated) {
       this.setState({
         active: true,
@@ -337,11 +335,20 @@ module.exports = {
   },
 
   listenForRepositioning: function() {
-    document.addEventListener("touchmove", this.reposition);
     document.addEventListener("mousemove", this.reposition);
-
-    document.addEventListener("touchend",  this.endReposition);
     document.addEventListener("mouseup",   this.endReposition);
+  },
+
+  startRepositionTouch: function(evt) {
+    alert("touch");
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.listenForRepositioningTouch();
+  },
+
+  listenForRepositioningTouch: function() {
+    document.addEventListener("touchmove", this.reposition);
+    document.addEventListener("touchend",  this.endReposition);
   },
 
   reposition: function(evt) {
@@ -358,7 +365,7 @@ module.exports = {
 
     if (evt.type.indexOf("touch") !== -1) {
       evt.stopPropagation();
-      evt.stopPropagation();
+      evt.preventDefault();
     }
   },
 
@@ -375,11 +382,6 @@ module.exports = {
       if (this.handleTransformEnd) {
         this.handleTransformEnd();
       }
-    }
-
-    if (evt.type.indexOf("touch") !== -1) {
-      evt.stopPropagation();
-      evt.stopPropagation();
     }
   },
 

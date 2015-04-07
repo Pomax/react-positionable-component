@@ -54,19 +54,23 @@ module.exports = {
       });
       this.listenForRepositioning();
     }
-
-    if (evt.type.indexOf("touch") !== -1) {
-      evt.stopPropagation();
-      evt.preventDefault();
-    }
   },
 
   listenForRepositioning: function() {
-    document.addEventListener("touchmove", this.reposition);
     document.addEventListener("mousemove", this.reposition);
-
-    document.addEventListener("touchend",  this.endReposition);
     document.addEventListener("mouseup",   this.endReposition);
+  },
+
+  startRepositionTouch: function(evt) {
+    alert("touch");
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.listenForRepositioningTouch();
+  },
+
+  listenForRepositioningTouch: function() {
+    document.addEventListener("touchmove", this.reposition);
+    document.addEventListener("touchend",  this.endReposition);
   },
 
   reposition: function(evt) {
@@ -100,11 +104,6 @@ module.exports = {
       if (this.handleTransformEnd) {
         this.handleTransformEnd();
       }
-    }
-
-    if (evt.type.indexOf("touch") !== -1) {
-      evt.stopPropagation();
-      evt.preventDefault();
     }
   },
 
