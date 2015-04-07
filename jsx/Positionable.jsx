@@ -82,9 +82,9 @@ var Positionable = React.createClass({
   touchEnd: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
 */
 
-  touchStart: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " }} )); },
-  touchMove: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move " }} )); },
-  touchEnd: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end " }} )); },
+  touchStart: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start "+JSON.stringify(evt) }} )); },
+  touchMove: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move "+JSON.stringify(evt) }} )); },
+  touchEnd: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end "+JSON.stringify(evt) }} )); },
 
 /*
   touchStart: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " + evt.clientX + "/" + evt.clientY }})); },
