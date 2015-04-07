@@ -320,8 +320,8 @@ module.exports = RotationController;
 "use strict";
 
 function fixTouchEvent(evt) {
-  evt.clientX = evt.clientX || evt.touches[0].pageX;
-  evt.clientY = evt.clientY || evt.touches[0].pageY;
+  evt.clientX = evt.clientX || evt.changedTouches[0].pageX;
+  evt.clientY = evt.clientY || evt.changedTouches[0].pageY;
 }
 
 
