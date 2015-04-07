@@ -8,7 +8,7 @@ var RotationController = React.createClass({
   ],
 
   getInitialState: function() {
-    return { base: 0, angle: 0 };
+    return { base: this.props.angle || 0, angle: 0 };
   },
 
   render: function() {

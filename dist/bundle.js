@@ -25,9 +25,6 @@ module.exports = TextField;
 
 var React = require("react/dist/react.min");
 
-// we want touch enabled.
-React.initializeTouchEvents(true);
-
 // Main components:
 var Positionable = require('../jsx/Positionable.jsx');
 var TextField = require('./TextField.jsx');
@@ -77,9 +74,9 @@ var Positionable = React.createClass({displayName: "Positionable",
 
   getInitialState: function() {
     return {
-      angle: 0,
-      scale: 1,
-      zIndex: 1
+      angle: this.props.angle || 0,
+      scale: this.props.scale || 1,
+      zIndex: this.props.zIndex || 1
     };
   },
 
@@ -92,10 +89,12 @@ var Positionable = React.createClass({displayName: "Positionable",
     var x = this.state.x + this.state.xDiff;
     var y = this.state.y + this.state.yDiff;
 
+    var angle = (180 * this.state.angle / Math.PI)
+
     var style = {
       transform: [
         "translate("+x+"px, "+y+"px)",
-        "rotate("+this.state.angle+"deg)",
+        "rotate("+angle+"deg)",
         "scale("+this.state.scale+")"
       ].join(" "),
       transformOrigin: "center",
@@ -114,8 +113,8 @@ var Positionable = React.createClass({displayName: "Positionable",
        onTouchStart: this.state.activated ? this.startReposition : false}, 
 
         React.createElement(ZIndexController, {zIndex: 1, onChange: this.handleZIndexChange}), 
-        React.createElement(RotationController, {activated: "true", origin: this, onRotate: this.handleRotation}), 
-        React.createElement(ScaleController, {activated: "true", origin: this, onScale: this.handleScaling}), 
+        React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
+        React.createElement(ScaleController, {scale: this.state.scale, activated: "true", origin: this, onScale: this.handleScaling}), 
         this.props.children
 
       )
@@ -123,7 +122,7 @@ var Positionable = React.createClass({displayName: "Positionable",
   },
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
-  handleRotation: function(angle) { this.setState({ angle: (180 * angle / Math.PI) }); },
+  handleRotation: function(angle) { this.setState({ angle: angle }); },
   handleScaling: function(scale) { this.setState({ scale: scale }); }
 
 });
@@ -142,7 +141,7 @@ var RotationController = React.createClass({displayName: "RotationController",
   ],
 
   getInitialState: function() {
-    return { base: 0, angle: 0 };
+    return { base: this.props.angle || 0, angle: 0 };
   },
 
   render: function() {
@@ -205,7 +204,7 @@ var RotationController = React.createClass({displayName: "RotationController",
   ],
 
   getInitialState: function() {
-    return { base: 1, scale: 1 };
+    return { base: this.props.scale || 1, scale: 1 };
   },
 
   render: function() {
@@ -276,8 +275,8 @@ module.exports = {
       activated: false,
       active: false,
       stayactive: stayactive,
-      x: 0,
-      y: 0,
+      x: this.props.x || 0,
+      y: this.props.y || 0,
       xMark: 0,
       yMark: 0,
       xDiff: 0,
@@ -365,7 +364,6 @@ module.exports = {
   },
 
   handleClickOutside: function(evt) {
-    console.log("outside click");
     if(this.state.repositioning) {
       this.endReposition();
     }

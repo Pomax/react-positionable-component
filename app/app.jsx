@@ -2,9 +2,6 @@
 
 var React = require("react/dist/react.min");
 
-// we want touch enabled.
-React.initializeTouchEvents(true);
-
 // Main components:
 var Positionable = require('../jsx/Positionable.jsx');
 var TextField = require('./TextField.jsx');

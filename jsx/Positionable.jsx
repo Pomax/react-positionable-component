@@ -14,9 +14,9 @@ var Positionable = React.createClass({
 
   getInitialState: function() {
     return {
-      angle: 0,
-      scale: 1,
-      zIndex: 1
+      angle: this.props.angle || 0,
+      scale: this.props.scale || 1,
+      zIndex: this.props.zIndex || 1
     };
   },
 
@@ -29,10 +29,12 @@ var Positionable = React.createClass({
     var x = this.state.x + this.state.xDiff;
     var y = this.state.y + this.state.yDiff;
 
+    var angle = (180 * this.state.angle / Math.PI)
+
     var style = {
       transform: [
         "translate("+x+"px, "+y+"px)",
-        "rotate("+this.state.angle+"deg)",
+        "rotate("+angle+"deg)",
         "scale("+this.state.scale+")"
       ].join(" "),
       transformOrigin: "center",
@@ -51,8 +53,8 @@ var Positionable = React.createClass({
        onTouchStart={this.state.activated ? this.startReposition : false}>
 
         <ZIndexController   zIndex={1} onChange={this.handleZIndexChange}                 />
-        <RotationController activated="true" origin={this} onRotate={this.handleRotation} />
-        <ScaleController    activated="true" origin={this} onScale={this.handleScaling}   />
+        <RotationController angle={this.state.angle} activated="true" origin={this} onRotate={this.handleRotation} />
+        <ScaleController    scale={this.state.scale} activated="true" origin={this} onScale={this.handleScaling}   />
         {this.props.children}
 
       </div>
@@ -60,9 +62,28 @@ var Positionable = React.createClass({
   },
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
-  handleRotation: function(angle) { this.setState({ angle: (180 * angle / Math.PI) }); },
-  handleScaling: function(scale) { this.setState({ scale: scale }); }
+  handleRotation: function(angle) { this.setState({ angle: angle }); },
+  handleScaling: function(scale) { this.setState({ scale: scale }); },
 
+  // Always useful to be able to extract this information, in case it needs
+  // to be stored for future restoring.
+  getTransform: function() {
+    return {
+      x: this.state.x,
+      y: this.state.y,
+      angle: this.state.angle,
+      scale: this.state.scale
+    };
+  },
+
+  setTransform: function(obj) {
+    this.setState({
+      x: obj.x || 0,
+      y: obj.y || 0,
+      angle: obj.angle || 0,
+      scale: obj.scale || 1
+    });
+  }
 });
 
 module.exports = Positionable;

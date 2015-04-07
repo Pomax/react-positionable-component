@@ -16,8 +16,8 @@ module.exports = {
       activated: false,
       active: false,
       stayactive: stayactive,
-      x: 0,
-      y: 0,
+      x: this.props.x || 0,
+      y: this.props.y || 0,
       xMark: 0,
       yMark: 0,
       xDiff: 0,
@@ -59,10 +59,11 @@ module.exports = {
   },
 
   listenForRepositioning: function() {
-    document.addEventListener("mousemove", this.reposition);
     document.addEventListener("touchmove", this.reposition);
-    document.addEventListener("mouseup",   this.endReposition);
+    document.addEventListener("mousemove", this.reposition);
+
     document.addEventListener("touchend",  this.endReposition);
+    document.addEventListener("mouseup",   this.endReposition);
   },
 
   reposition: function(evt) {
@@ -77,11 +78,13 @@ module.exports = {
           this.handleTransform();
         }
       });
+      e.stopPropagation();
     }
   },
 
   endReposition: function(evt) {
     evt.stopPropagation();
+
     if(this.state.active) {
       this.setState({
         active: false,
@@ -94,18 +97,19 @@ module.exports = {
       if (this.handleTransformEnd) {
         this.handleTransformEnd();
       }
+      evt.stopPropagation();
     }
   },
 
   stopListening: function() {
-    document.addEventListener("mousemove", this.reposition);
     document.addEventListener("touchmove", this.reposition);
-    document.addEventListener("mouseup",   this.endReposition);
+    document.addEventListener("mousemove", this.reposition);
+
     document.addEventListener("touchend",  this.endReposition);
+    document.addEventListener("mouseup",   this.endReposition);
   },
 
   handleClickOutside: function(evt) {
-    console.log("outside click");
     if(this.state.repositioning) {
       this.endReposition();
     }
