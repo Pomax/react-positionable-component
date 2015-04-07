@@ -49,8 +49,7 @@ var Positionable = React.createClass({
     return (
       <div style={style}
        className={className}
-       onMouseDown={this.state.activated ? this.startReposition : false}
-       onTouchStart={this.state.activated ? this.startRepositionTouch : false} >
+       onMouseDown={this.state.activated ? this.startReposition : false}>
 
         <RotationController angle={this.state.angle} activated="true" origin={this} onRotate={this.handleRotation} />
         <ScaleController    scale={this.state.scale} activated="true" origin={this} onScale={this.handleScaling}   />
@@ -59,6 +58,18 @@ var Positionable = React.createClass({
         {this.props.children}
       </div>
     );
+  },
+
+  componentDidMount: function() {
+    var div = this.getDOMNode();
+    var self = this;
+    div.addEventListener("touchstart", function(evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      if (self.state.activated) {
+        self.startRepositionTouch(evt);
+      }
+    });
   },
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
