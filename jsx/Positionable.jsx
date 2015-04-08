@@ -45,9 +45,9 @@ var Positionable = React.createClass({
 
     return (
       <div style={style} className={className}>
-        <RotationController angle={this.state.angle} activated="true" origin={this} onRotate={this.handleRotation} />
-        <ScaleController    scale={this.state.scale} activated="true" origin={this} onScale={this.handleScaling}   />
         <ZIndexController   zIndex={this.state.zIndex} onChange={this.handleZIndexChange} />
+        <RotationController angle={this.state.angle}   onRotate={this.handleRotation} activated="true" origin={this} />
+        <ScaleController    scale={this.state.scale}   onScale={this.handleScaling}   activated="true" origin={this} />
         {this.props.children}
       </div>
     );

@@ -70,8 +70,8 @@ module.exports = {
    ****************************************************************/
 
   startReposition: function(evt) {
-    evt.stopPropagation();
     if (this.state.activated) {
+      evt.stopPropagation();
       this.setState({
         active: true,
         xMark: evt.clientX,
@@ -89,8 +89,8 @@ module.exports = {
   },
 
   reposition: function(evt) {
-    evt.stopPropagation();
     if(this.state.active) {
+      evt.stopPropagation();
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -103,8 +103,8 @@ module.exports = {
   },
 
   endReposition: function(evt) {
-    evt.stopPropagation();
     if(this.state.active) {
+      evt.stopPropagation();
       this.stopListening();
       this.setState({
         active: false,

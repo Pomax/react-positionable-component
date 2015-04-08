@@ -71,7 +71,7 @@ htlm, body {
   white-space: nowrap;
 }
 
-.zmod {
+.positionable .zindex-controller .zmod {
   cursor: pointer;
   opacity: 0.5;
   padding: 1em;
