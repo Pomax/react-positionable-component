@@ -13,7 +13,7 @@ var ZIndexController = React.createClass({
   render: function() {
     return (
       <div className="zindex-controller">
-        layer position: <span className="zmod left" onClick={this.zDown}>◀</span> {this.state.zIndex} <span className="zmod right" onClick={this.zUp}>▶</span>
+        layer position: <button className="zmod left" onClick={this.zDown}>◀</button> {this.state.zIndex} <button className="zmod right" onClick={this.zUp}>▶</button>
       </div>
     );
   },

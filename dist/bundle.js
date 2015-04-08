@@ -532,7 +532,7 @@ var ZIndexController = React.createClass({displayName: "ZIndexController",
   render: function() {
     return (
       React.createElement("div", {className: "zindex-controller"}, 
-        "layer position: ", React.createElement("span", {className: "zmod left", onClick: this.zDown}, "◀"), " ", this.state.zIndex, " ", React.createElement("span", {className: "zmod right", onClick: this.zUp}, "▶")
+        "layer position: ", React.createElement("button", {className: "zmod left", onClick: this.zDown}, "◀"), " ", this.state.zIndex, " ", React.createElement("button", {className: "zmod right", onClick: this.zUp}, "▶")
       )
     );
   },

@@ -77,6 +77,8 @@ htlm, body {
   padding: 1em;
   margin: -1.1em;
   border-radius: 2em;
+  border: none;
+  background: transparent;
 }
 .zmod.left {
   padding-right: 0.25em;
