@@ -65,13 +65,15 @@ module.exports = {
     });
   },
 
+
+
   /****************************************************************
    *                     MOUSE EVENT HANDLING
    ****************************************************************/
 
   startReposition: function(evt) {
     if (this.state.activated) {
-      evt.stopPropagation();
+      //evt.stopPropagation();
       this.setState({
         active: true,
         xMark: evt.clientX,
