@@ -157,7 +157,7 @@ var Positionable = React.createClass({displayName: "Positionable",
 
         React.createElement(RotationController, {angle: this.state.angle, onRotate: this.handleRotation, activated: "true", origin: this}), 
         React.createElement(ScaleController, {scale: this.state.scale, onScale: this.handleScaling, activated: "true", origin: this}), 
-        React.createElement("button", {onClick: function() { alert('test'); }}, "test"), 
+
         this.props.children
       )
     );
