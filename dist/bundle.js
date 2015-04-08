@@ -111,7 +111,10 @@ var PlacementController = React.createClass({displayName: "PlacementController",
   ],
 
   render: function() {
-    return React.createElement("div", {className: "placement-control"}, "M");
+    return React.createElement("div", {className: "placement-control"}, 
+      React.createElement("span", null, "↔"), 
+      React.createElement("span", null, "↕")
+    );
   },
 
   handleTransform: function() {
@@ -124,7 +127,7 @@ var PlacementController = React.createClass({displayName: "PlacementController",
 });
 
 module.exports = PlacementController;
-
+65254
 
 },{"./Transform-mixin":8,"react/dist/react.min":13}],5:[function(require,module,exports){
 "use strict";
@@ -150,11 +153,11 @@ var Positionable = React.createClass({displayName: "Positionable",
   },
 
   render: function() {
-    var x = this.state.x;
-    var y = this.state.y;
-    var angle = (180 * this.state.angle / Math.PI);
-    var scale = this.state.scale;
-    var zIndex = this.state.zIndex;
+    var x = this.state.x,
+        y = this.state.y,
+        angle = (180 * this.state.angle / Math.PI),
+        scale = this.state.scale,
+        zIndex = this.state.zIndex;
 
     var style = {
       transform: [
@@ -167,16 +170,30 @@ var Positionable = React.createClass({displayName: "Positionable",
     };
 
     var className = classes({
-      positionable: true,
-      activated: this.state.activated
+      positionable: true
     });
 
     return (
       React.createElement("div", {style: style, className: className}, 
-        React.createElement(PlacementController, {x: this.state.x, y: this.state.y, onChange: this.handleTranslation, activated: "true", origin: this}), 
-        React.createElement(RotationController, {angle: this.state.angle, onChange: this.handleRotation, activated: "true", origin: this}), 
-        React.createElement(ScaleController, {scale: this.state.scale, onChange: this.handleScaling, activated: "true", origin: this}), 
-        React.createElement(ZIndexController, {zIndex: this.state.zIndex, onChange: this.handleZIndexChange}), 
+        React.createElement(PlacementController, {x: this.state.x, 
+                             y: this.state.y, 
+                             onChange: this.handleTranslation, 
+                             activated: "true", 
+                             origin: this}), 
+
+        React.createElement(RotationController, {angle: this.state.angle, 
+                             onChange: this.handleRotation, 
+                             activated: "true", 
+                             origin: this}), 
+
+        React.createElement(ScaleController, {scale: this.state.scale, 
+                             onChange: this.handleScaling, 
+                             activated: "true", 
+                             origin: this}), 
+
+        React.createElement(ZIndexController, {zIndex: this.state.zIndex, 
+                             onChange: this.handleZIndexChange}), 
+
         this.props.children
       )
     );

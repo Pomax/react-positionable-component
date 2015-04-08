@@ -19,15 +19,32 @@ htlm, body {
   padding: 1em;
 }
 
-.positionable.activated {
+.positionable {
   background: rgba(0,255,0,0.2);
   border: 1px dashed rgba(0,0,0,0.4);
   margin: -1px;
-  cursor: move;
 }
 
-.positionable.activated * {
-  cursor: default;
+
+.placement-control { display: none; }
+.positionable .placement-control {
+  position: absolute;
+  display: block;
+  top: -1.1em;
+  left: -1.0em;
+  width: 1em;
+  height: 1em;
+  padding: 1em;
+  cursor: pointer;
+  background: transparent;
+}
+.positionable .placement-control span {
+  position: relative;
+  display: inline-block;
+}
+.positionable .placement-control span + span {
+  vertical-align: 0.05em;
+  margin-left: -0.75em;
 }
 
 .rotation-control { display: none; }
@@ -79,7 +96,7 @@ htlm, body {
   margin: -1.1em;
   border-radius: 2em;
   border: none;
-  background: rgba(0,0,0,0.2);
+  background: transparent;
 }
 .positionable .zindex-controller .zmod.left {
   padding-right: 0.25em;

@@ -21,11 +21,11 @@ var Positionable = React.createClass({
   },
 
   render: function() {
-    var x = this.state.x;
-    var y = this.state.y;
-    var angle = (180 * this.state.angle / Math.PI);
-    var scale = this.state.scale;
-    var zIndex = this.state.zIndex;
+    var x = this.state.x,
+        y = this.state.y,
+        angle = (180 * this.state.angle / Math.PI),
+        scale = this.state.scale,
+        zIndex = this.state.zIndex;
 
     var style = {
       transform: [
@@ -38,16 +38,30 @@ var Positionable = React.createClass({
     };
 
     var className = classes({
-      positionable: true,
-      activated: this.state.activated
+      positionable: true
     });
 
     return (
       <div style={style} className={className}>
-        <PlacementController x={this.state.x} y={this.state.y} onChange={this.handleTranslation} activated="true" origin={this} />
-        <RotationController  angle={this.state.angle}          onChange={this.handleRotation}    activated="true" origin={this} />
-        <ScaleController     scale={this.state.scale}          onChange={this.handleScaling}     activated="true" origin={this} />
-        <ZIndexController    zIndex={this.state.zIndex}        onChange={this.handleZIndexChange} />
+        <PlacementController x={this.state.x}
+                             y={this.state.y}
+                             onChange={this.handleTranslation}
+                             activated="true"
+                             origin={this} />
+
+        <RotationController  angle={this.state.angle}
+                             onChange={this.handleRotation}
+                             activated="true"
+                             origin={this} />
+
+        <ScaleController     scale={this.state.scale}
+                             onChange={this.handleScaling}
+                             activated="true"
+                             origin={this} />
+
+        <ZIndexController    zIndex={this.state.zIndex}
+                             onChange={this.handleZIndexChange} />
+
         {this.props.children}
       </div>
     );

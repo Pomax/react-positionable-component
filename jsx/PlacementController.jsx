@@ -8,7 +8,10 @@ var PlacementController = React.createClass({
   ],
 
   render: function() {
-    return <div className="placement-control">M</div>;
+    return <div className="placement-control">
+      <span>↔</span>
+      <span>↕</span>
+    </div>;
   },
 
   handleTransform: function() {
@@ -21,3 +24,4 @@ var PlacementController = React.createClass({
 });
 
 module.exports = PlacementController;
+65254
