@@ -127,16 +127,18 @@ var Positionable = React.createClass({displayName: "Positionable",
     var x = this.state.x + this.state.xDiff;
     var y = this.state.y + this.state.yDiff;
 
-    var angle = (180 * this.state.angle / Math.PI)
+    var angle = (180 * this.state.angle / Math.PI);
+    var scale = this.state.scale;
+    var zIndex = this.state.zIndex;
 
     var style = {
       transform: [
         "translate("+x+"px, "+y+"px)",
         "rotate("+angle+"deg)",
-        "scale("+this.state.scale+")"
+        "scale("+scale+")"
       ].join(" "),
       transformOrigin: "center",
-      zIndex: this.state.zIndex
+      zIndex: zIndex
     };
 
     var className = classes({
@@ -154,12 +156,24 @@ var Positionable = React.createClass({displayName: "Positionable",
     );
   },
 
-  handleZIndexChange: function(z) { this.setState({ zIndex: z })},
-  handleRotation: function(angle) { this.setState({ angle: angle }); },
-  handleScaling: function(scale) { this.setState({ scale: scale }); },
+  handleRotation: function(angle) {
+    this.setState({
+      angle: angle
+    });
+  },
 
-  // Always useful to be able to extract this information, in case it needs
-  // to be stored for future restoring.
+  handleScaling: function(scale) {
+    this.setState({
+      scale: scale
+    });
+  },
+
+  handleZIndexChange: function(zIndex) {
+    this.setState({
+      zIndex: zIndex
+    });
+  },
+
   getTransform: function() {
     return {
       x: this.state.x,
@@ -197,40 +211,41 @@ var RotationController = React.createClass({displayName: "RotationController",
   },
 
   render: function() {
-    return (
-      React.createElement("div", {className: "rotation-control", 
-           onMouseDown: this.state.activated ? this.startReposition : false, 
-           onTouchStart: this.state.activated ? this.startReposition : false}, "↻")
-    );
+    return React.createElement("div", {className: "rotation-control"}, "↻");
   },
 
   handleTransform: function() {
-    var s = this.state;
+    var s = this.state, p = this.props;
 
-    if (this.props.origin && this.props.onRotate) {
-      var dimensions = this.props.origin.getDOMNode().getBoundingClientRect();
-      var xOffset = dimensions.left + (dimensions.right - dimensions.left)/2;
-      var yOffset = dimensions.top + (dimensions.bottom - dimensions.top)/2;
+    if (p.origin && p.onRotate) {
+      var node = p.origin.getDOMNode();
+      var dims = node.getBoundingClientRect();
+      var xOffset = dims.left + (dims.right - dims.left)/2;
+      var yOffset = dims.top + (dims.bottom - dims.top)/2;
+
       // normalised vector 1:
       var x1 = s.xMark - xOffset,
           y1 = s.yMark - yOffset,
           m1 = Math.sqrt(x1*x1 + y1*y1);
       x1 /= m1;
       y1 /= m1;
+
       // normalised vector 2:
       var x2 = (s.xMark + s.xDiff) - xOffset,
           y2 = (s.yMark + s.yDiff) - yOffset,
           m2 = Math.sqrt(x2*x2 + y2*y2);
       x2 /= m2;
       y2 /= m2;
+
       // signed angle between these vectors:
       var cross = x1*y2 - y1*x2;
       var dot   = x1*x2 + y1*y2;
       var angle = Math.atan2(cross, dot);
+
       // communicate angle to owner
       this.setState(
         { angle: angle },
-        function() { this.props.onRotate(this.state.base + angle); }
+        function() { p.onRotate(this.state.base + angle); }
       );
     }
   },
@@ -260,38 +275,39 @@ var RotationController = React.createClass({displayName: "RotationController",
   },
 
   render: function() {
-    return (
-      React.createElement("div", {className: "scale-control", 
-           onMouseDown: this.state.activated ? this.startReposition : false, 
-           onTouchStart: this.state.activated ? this.startReposition : false}, "⇲")
-    );
+    return React.createElement("div", {className: "scale-control"}, "⇲");
   },
 
   handleTransform: function() {
-    if (this.props.origin && this.props.onScale) {
-      var s = this.state;
+    var s = this.state, p = this.props;
+    if (p.origin && p.onScale) {
+      var node = p.origin.getDOMNode();
+      var dims = node.getBoundingClientRect();
+      var xOffset = dims.left + (dims.right - dims.left)/2;
+      var yOffset = dims.top + (dims.bottom - dims.top)/2;
 
-      var dimensions = this.props.origin.getDOMNode().getBoundingClientRect();
-      var xOffset = dimensions.left + (dimensions.right - dimensions.left)/2;
-      var yOffset = dimensions.top + (dimensions.bottom - dimensions.top)/2;
       //  vector 1:
       var x1 = s.xMark - xOffset,
           y1 = s.yMark - yOffset;
+
       //  vector 2:
       var x2 = (s.xMark + s.xDiff) - xOffset,
           y2 = (s.yMark + s.yDiff) - yOffset;
+
       // normalised vector 1:
       var m1 = Math.sqrt(x1*x1 + y1*y1),
           nx1 = x1 / m1,
           ny1 = y1 / m1;
+
       // projection of vector 2 onto vector 1 involves
       // finding the projection scale factor, which is
       // exactly what we need:
       var scale = (x2*nx1 + y2*ny1)/m1;
+
       // communicate scale to owner
       this.setState(
         { scale: scale },
-        function() { this.props.onScale(this.state.base * scale); }
+        function() { p.onScale(this.state.base * scale); }
       );
     }
   },
@@ -521,7 +537,8 @@ var ZIndexController = React.createClass({displayName: "ZIndexController",
     );
   },
 
-  zUp: function() {
+  zUp: function(evt) {
+    evt.stopPropagation();
     this.setState({ zIndex: this.state.zIndex + 1 }, function() {
       if(this.props.onChange) {
         this.props.onChange(this.state.zIndex);
@@ -529,7 +546,8 @@ var ZIndexController = React.createClass({displayName: "ZIndexController",
     });
   },
 
-  zDown: function() {
+  zDown: function(evt) {
+    evt.stopPropagation();
     this.setState({ zIndex: Math.max(0, this.state.zIndex - 1) }, function() {
       if(this.props.onChange) {
         this.props.onChange(this.state.zIndex);

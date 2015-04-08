@@ -18,7 +18,8 @@ var ZIndexController = React.createClass({
     );
   },
 
-  zUp: function() {
+  zUp: function(evt) {
+    evt.stopPropagation();
     this.setState({ zIndex: this.state.zIndex + 1 }, function() {
       if(this.props.onChange) {
         this.props.onChange(this.state.zIndex);
@@ -26,7 +27,8 @@ var ZIndexController = React.createClass({
     });
   },
 
-  zDown: function() {
+  zDown: function(evt) {
+    evt.stopPropagation();
     this.setState({ zIndex: Math.max(0, this.state.zIndex - 1) }, function() {
       if(this.props.onChange) {
         this.props.onChange(this.state.zIndex);
