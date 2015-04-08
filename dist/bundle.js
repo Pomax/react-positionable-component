@@ -458,9 +458,9 @@ module.exports = {
     if (this.state.activated) {
       evt.preventDefault();
       fixTouchEvent(evt);
-      document.dispatchEvent (new CustomEvent("app:log", {detail: {
-        msg: "touch start: " + evt.clientX + "/" + evt.clientY
-      }}));
+//      document.dispatchEvent (new CustomEvent("app:log", {detail: {
+//        msg: "touch start: " + evt.clientX + "/" + evt.clientY
+//      }}));
       this.setState({
         active: true,
         xMark: evt.clientX,
@@ -475,9 +475,9 @@ module.exports = {
     if(this.state.active) {
       evt.preventDefault();
       fixTouchEvent(evt);
-      document.dispatchEvent (new CustomEvent("app:log", {detail: {
-        msg: "touch move: " + evt.clientX + "/" + evt.clientY + " d " + this.state.xMark +"/" + this.state.yMark
-      }}));
+//      document.dispatchEvent (new CustomEvent("app:log", {detail: {
+//        msg: "touch move: " + evt.clientX + "/" + evt.clientY + " d " + this.state.xMark +"/" + this.state.yMark
+//      }}));
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -491,7 +491,7 @@ module.exports = {
 
   endRepositionTouch: function() {
     if(this.state.active) {
-      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end" }}));
+//      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end" }}));
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
