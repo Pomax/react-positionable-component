@@ -158,11 +158,9 @@ var Positionable = React.createClass({displayName: "Positionable",
 
     return (
       React.createElement("div", {style: style, className: className}, 
-
         React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
         React.createElement(ScaleController, {scale: this.state.scale, activated: "true", origin: this, onScale: this.handleScaling}), 
         React.createElement(ZIndexController, {zIndex: 1, onChange: this.handleZIndexChange}), 
-
         this.props.children
       )
     );
@@ -372,15 +370,16 @@ module.exports = {
   },
 
   componentDidMount: function() {
-    this.getDOMNode();
-    document.addEventListener("mousedown", this.startReposition);
-    document.addEventListener("touchstart", this.startRepositionTouch);
+    var thisNode = this.getDOMNode();
+    thisNode.addEventListener("mousedown", this.startReposition);
+    thisNode.addEventListener("touchstart", this.startRepositionTouch);
   },
 
   componentWillUnmount: function() {
     this.stopListening();
-    document.removeEventListener("mousedown", this.startReposition);
-    document.removeEventListener("touchstart", this.startRepositionTouch);
+    var thisNode = this.getDOMNode();
+    thisNode.removeEventListener("mousedown", this.startReposition);
+    thisNode.removeEventListener("touchstart", this.startRepositionTouch);
   },
 
   toggle: function(evt) {

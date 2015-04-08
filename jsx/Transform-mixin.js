@@ -47,15 +47,16 @@ module.exports = {
   },
 
   componentDidMount: function() {
-    this.getDOMNode();
-    document.addEventListener("mousedown", this.startReposition);
-    document.addEventListener("touchstart", this.startRepositionTouch);
+    var thisNode = this.getDOMNode();
+    thisNode.addEventListener("mousedown", this.startReposition);
+    thisNode.addEventListener("touchstart", this.startRepositionTouch);
   },
 
   componentWillUnmount: function() {
     this.stopListening();
-    document.removeEventListener("mousedown", this.startReposition);
-    document.removeEventListener("touchstart", this.startRepositionTouch);
+    var thisNode = this.getDOMNode();
+    thisNode.removeEventListener("mousedown", this.startReposition);
+    thisNode.removeEventListener("touchstart", this.startRepositionTouch);
   },
 
   toggle: function(evt) {
