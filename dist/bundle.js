@@ -150,7 +150,7 @@ var Positionable = React.createClass({displayName: "Positionable",
       React.createElement("div", {style: style, className: className}, 
         React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
         React.createElement(ScaleController, {scale: this.state.scale, activated: "true", origin: this, onScale: this.handleScaling}), 
-        React.createElement(ZIndexController, {zIndex: 1, onChange: this.handleZIndexChange}), 
+        React.createElement(ZIndexController, {zIndex: this.state.zIndex, onChange: this.handleZIndexChange}), 
         this.props.children
       )
     );
@@ -397,7 +397,7 @@ module.exports = {
    ****************************************************************/
 
   startReposition: function(evt) {
-    //evt.stopPropagation();
+    evt.stopPropagation();
     if (this.state.activated) {
       this.setState({
         active: true,
@@ -530,9 +530,15 @@ var ZIndexController = React.createClass({displayName: "ZIndexController",
   },
 
   render: function() {
+    var style = {
+      zIndex: this.props.zIndex + 1
+    };
     return (
       React.createElement("div", {className: "zindex-controller"}, 
-        "layer position: ", React.createElement("button", {className: "zmod left", onClick: this.zDown}, "◀"), " ", this.state.zIndex, " ", React.createElement("button", {className: "zmod right", onClick: this.zUp}, "▶")
+        "layer position:", 
+        React.createElement("button", {className: "zmod left", onClick: this.zDown, style: style}, "◀"), 
+        this.state.zIndex, 
+        React.createElement("button", {className: "zmod right", onClick: this.zUp, style: style}, "▶")
       )
     );
   },
