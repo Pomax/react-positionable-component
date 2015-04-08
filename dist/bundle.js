@@ -397,7 +397,7 @@ module.exports = {
    ****************************************************************/
 
   startReposition: function(evt) {
-    evt.stopPropagation();
+    //evt.stopPropagation();
     if (this.state.activated) {
       this.setState({
         active: true,
