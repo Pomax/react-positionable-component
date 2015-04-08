@@ -65,7 +65,7 @@ module.exports = {
     });
   },
 
-  
+
 
   /****************************************************************
    *                     MOUSE EVENT HANDLING
@@ -132,7 +132,6 @@ module.exports = {
    ****************************************************************/
 
   startRepositionTouch: function(evt) {
-    evt.stopPropagation();
     if (this.state.activated) {
       evt.preventDefault();
       fixTouchEvent(evt);

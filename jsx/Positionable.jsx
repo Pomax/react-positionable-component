@@ -5,6 +5,7 @@ var classes = require("classnames");
 
 var RotationController = require("./RotationController.jsx");
 var ScaleController = require("./ScaleController.jsx");
+var ZIndexController = require("./ZIndexController.jsx");
 
 var Positionable = React.createClass({
   mixins: [
@@ -44,38 +45,12 @@ var Positionable = React.createClass({
 
     return (
       <div style={style} className={className}>
-
-        <div>
-          layer position:
-          <span className="zmod left" onClick={this.zDown}>◀</span>
-          {this.state.zIndex}
-          <span className="zmod right" onClick={this.zUp}>▶</span>
-        </div>
-
         <RotationController angle={this.state.angle}   onRotate={this.handleRotation} activated="true" origin={this} />
         <ScaleController    scale={this.state.scale}   onScale={this.handleScaling}   activated="true" origin={this} />
-
+        <ZIndexController   zIndex={this.state.zIndex} onChange={this.handleZIndexChange} />
         {this.props.children}
       </div>
     );
-  },
-
-  zUp: function(evt) {
-    evt.stopPropagation();
-    this.setState({ zIndex: this.state.zIndex + 1 }, function() {
-      if(this.props.onChange) {
-        this.props.onChange(this.state.zIndex);
-      }
-    });
-  },
-
-  zDown: function(evt) {
-    evt.stopPropagation();
-    this.setState({ zIndex: Math.max(0, this.state.zIndex - 1) }, function() {
-      if(this.props.onChange) {
-        this.props.onChange(this.state.zIndex);
-      }
-    });
   },
 
   handleRotation: function(angle) {
