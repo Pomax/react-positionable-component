@@ -457,6 +457,8 @@ module.exports = {
   startRepositionTouch: function(evt) {
     if (this.state.activated) {
       fixTouchEvent(evt);
+      evt.preventDefault();
+      evt.stopPropagation();
       document.dispatchEvent (new CustomEvent("app:log", {detail: {
         msg: "touch start: " + evt.clientX + "/" + evt.clientY
       }}));
@@ -473,6 +475,8 @@ module.exports = {
   repositionTouch: function(evt) {
     if(this.state.active) {
       fixTouchEvent(evt);
+      evt.preventDefault();
+      evt.stopPropagation();
       document.dispatchEvent (new CustomEvent("app:log", {detail: {
         msg: "touch move: " + evt.clientX + "/" + evt.clientY + " d " + this.state.xMark +"/" + this.state.yMark
       }}));
