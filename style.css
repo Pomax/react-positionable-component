@@ -34,26 +34,31 @@ htlm, body {
 .positionable .rotation-control {
   position: absolute;
   display: block;
-  top: 0.1em;
-  right: 0.1em;
+  top: 1.6em;
+  right: -1.6em;
   width: 1em;
   height: 1em;
-  border-radius: 1em;
+  padding: 1em;
   cursor: pointer;
   transform-origin: 0.5em 0.5em;
   transform: rotate(-135deg);
+  background: transparent;
+  border-radius: 3em;
 }
 
 .scale-control { display: none; }
 .positionable .scale-control {
   position: absolute;
   display: block;
-  bottom: 0.1em;
-  right: -0.2em;
+  bottom: -0.9em;
+  right: -1.3em;
   width: 1em;
   height: 1em;
+  padding: 1em;
   border-radius: 0.2em;
   cursor: pointer;
+  background: transparent;
+  border-radius: 3em;
 }
 
 .zindex-controller { display: none; }
@@ -64,11 +69,26 @@ htlm, body {
   left: 1em;
   opacity: 0.7;
   font-size: 90%;
+  white-space: nowrap;
 }
 
+.zmod:hover {
+  background: green;
+}
 .zmod {
   cursor: pointer;
   opacity: 0.5;
+  padding: 1em;
+  margin: -1.1em;
+  border-radius: 2em;
+}
+.zmod.left {
+  padding-right: 0.25em;
+  margin-right: -0.25em;
+}
+.zmod.right {
+  padding-left: 0.25em;
+  margin-left: -0.25em;
 }
 
 .log {
