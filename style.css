@@ -71,9 +71,6 @@ htlm, body {
   white-space: nowrap;
 }
 
-.zmod:hover {
-  background: green;
-}
 .zmod {
   cursor: pointer;
   opacity: 0.5;
