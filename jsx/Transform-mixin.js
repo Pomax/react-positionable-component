@@ -156,12 +156,9 @@ module.exports = {
     }
   },
 
-  endRepositionTouch: function(evt) {
+  endRepositionTouch: function() {
     if(this.state.active) {
-      fixTouchEvent(evt);
-      document.dispatchEvent (new CustomEvent("app:log", {detail: {
-        msg: "touch end: " + evt.clientX + "/" + evt.clientY
-      }}));
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end" }}));
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,

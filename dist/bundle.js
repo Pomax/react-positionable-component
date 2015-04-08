@@ -160,14 +160,9 @@ var Positionable = React.createClass({displayName: "Positionable",
       React.createElement("div", {style: style, 
        className: className, 
        onMouseDown: this.state.activated ? this.startReposition : false, 
-       /*
-       onTouchStart={this.startRepositionTouch}
-       onTouchMove={this.repositionTouch}
-       onTouchEnd={this.endRepositionTouch}
-       */
-       onTouchStart: this.touchStart, 
-       onTouchMove: this.touchMove, 
-       onTouchEnd: this.touchEnd
+       onTouchStart: this.startRepositionTouch, 
+       onTouchMove: this.repositionTouch, 
+       onTouchEnd: this.endRepositionTouch
       }, 
 
         React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
@@ -178,22 +173,6 @@ var Positionable = React.createClass({displayName: "Positionable",
       )
     );
   },
-
-/*
-  touchStart: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
-  touchMove: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
-  touchEnd: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
-*/
-
-  touchStart: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
-  touchMove: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move " + evt.touches[0].pageX + "/" + evt.touches[0].pageY }})); },
-  touchEnd: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end "}})); },
-
-/*
-  touchStart: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch start " + evt.clientX + "/" + evt.clientY }})); },
-  touchMove: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch move " + evt.clientX + "/" + evt.clientY }})); },
-  touchEnd: function(evt) { document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end " + evt.clientX + "/" + evt.clientY }})); },
-*/
 
   handleZIndexChange: function(z) { this.setState({ zIndex: z })},
   handleRotation: function(angle) { this.setState({ angle: angle }); },
@@ -508,12 +487,9 @@ module.exports = {
     }
   },
 
-  endRepositionTouch: function(evt) {
+  endRepositionTouch: function() {
     if(this.state.active) {
-      fixTouchEvent(evt);
-      document.dispatchEvent (new CustomEvent("app:log", {detail: {
-        msg: "touch end: " + evt.clientX + "/" + evt.clientY
-      }}));
+      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end" }}));
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
