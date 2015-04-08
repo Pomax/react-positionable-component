@@ -96,6 +96,7 @@ module.exports = {
   endReposition: function(evt) {
     evt.stopPropagation();
     if(this.state.active) {
+      this.stopListening();
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
@@ -103,7 +104,6 @@ module.exports = {
         xDiff: 0,
         yDiff: 0
       });
-      this.stopListening();
       if (this.handleTransformEnd) {
         this.handleTransformEnd();
       }
@@ -115,10 +115,6 @@ module.exports = {
     document.removeEventListener("mouseup",   this.endReposition);
   },
 
-
-
-
-
   /**
    * TOUCH EVENT HANDLING
    */
@@ -127,9 +123,9 @@ module.exports = {
     if (this.state.activated) {
       evt.preventDefault();
       fixTouchEvent(evt);
-//      document.dispatchEvent (new CustomEvent("app:log", {detail: {
-//        msg: "touch start: " + evt.clientX + "/" + evt.clientY
-//      }}));
+      //      document.dispatchEvent (new CustomEvent("app:log", {detail: {
+      //        msg: "touch start: " + evt.clientX + "/" + evt.clientY
+      //      }}));
       this.setState({
         active: true,
         xMark: evt.clientX,
@@ -137,16 +133,22 @@ module.exports = {
         xDiff: 0,
         yDiff: 0
       });
+      this.listenForRepositioningTouch();
     }
+  },
+
+  listenForRepositioningTouch: function() {
+    document.addEventListener("touchmove", this.repositionTouch);
+    document.addEventListener("touchend", this.endRepositionTouch);
   },
 
   repositionTouch: function(evt) {
     if(this.state.active) {
       evt.preventDefault();
       fixTouchEvent(evt);
-//      document.dispatchEvent (new CustomEvent("app:log", {detail: {
-//        msg: "touch move: " + evt.clientX + "/" + evt.clientY + " d " + this.state.xMark +"/" + this.state.yMark
-//      }}));
+      //      document.dispatchEvent (new CustomEvent("app:log", {detail: {
+      //        msg: "touch move: " + evt.clientX + "/" + evt.clientY + " d " + this.state.xMark +"/" + this.state.yMark
+      //      }}));
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -160,7 +162,8 @@ module.exports = {
 
   endRepositionTouch: function() {
     if(this.state.active) {
-//      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end" }}));
+      //      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end" }}));
+      this.stopListeningTouch();
       this.setState({
         active: false,
         x: this.state.x + this.state.xDiff,
@@ -173,5 +176,11 @@ module.exports = {
         }
       });
     }
+  },
+
+  stopListeningTouch: function() {
+    document.removeEventListener("touchmove", this.repositionTouch);
+    document.removeEventListener("touchend", this.endRepositionTouch);
   }
+
 };
