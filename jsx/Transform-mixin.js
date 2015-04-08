@@ -132,8 +132,8 @@ module.exports = {
    ****************************************************************/
 
   startRepositionTouch: function(evt) {
-    evt.stopPropagation();
     if (this.state.activated) {
+      evt.stopPropagation();
       evt.preventDefault();
       fixTouchEvent(evt);
       this.setState({
@@ -153,8 +153,8 @@ module.exports = {
   },
 
   repositionTouch: function(evt) {
-    evt.stopPropagation();
     if(this.state.active) {
+      evt.stopPropagation();
       evt.preventDefault();
       fixTouchEvent(evt);
       this.setState({

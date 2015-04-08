@@ -25,7 +25,6 @@ htlm, body {
   margin: -1px;
 }
 
-
 .placement-control { display: none; }
 .positionable .placement-control {
   position: absolute;
