@@ -1,0 +1,6 @@
+{
+  "name": "Web Application Manifest Sample",
+  "start_url": "index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
