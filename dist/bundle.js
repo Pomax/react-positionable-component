@@ -418,6 +418,7 @@ module.exports = {
   reposition: function(evt) {
     if(this.state.active) {
       evt.stopPropagation();
+      evt.preventDefault();
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
