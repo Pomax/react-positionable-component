@@ -11,21 +11,14 @@ var ZIndexController = React.createClass({
   },
 
   render: function() {
-    var style = {
-      zIndex: this.props.zIndex + 1
-    };
     return (
       <div className="zindex-controller">
-        layer position:
-        <button className="zmod left" onClick={this.zDown} style={style}>◀</button>
-        {this.state.zIndex}
-        <button className="zmod right" onClick={this.zUp} style={style}>▶</button>
+        layer position: <span className="zmod left" onClick={this.zDown}>◀</span> {this.state.zIndex} <span className="zmod right" onClick={this.zUp}>▶</span>
       </div>
     );
   },
 
   zUp: function(evt) {
-    evt.preventDefault();
     evt.stopPropagation();
     this.setState({ zIndex: this.state.zIndex + 1 }, function() {
       if(this.props.onChange) {
@@ -35,7 +28,6 @@ var ZIndexController = React.createClass({
   },
 
   zDown: function(evt) {
-    evt.preventDefault();
     evt.stopPropagation();
     this.setState({ zIndex: Math.max(0, this.state.zIndex - 1) }, function() {
       if(this.props.onChange) {
