@@ -17,7 +17,7 @@ var RotationController = React.createClass({
 
   handleTransform: function() {
     var s = this.state, p = this.props;
-    if (p.origin && p.onScale) {
+    if (p.origin && p.onChange) {
       var node = p.origin.getDOMNode();
       var dims = node.getBoundingClientRect();
       var xOffset = dims.left + (dims.right - dims.left)/2;
@@ -44,7 +44,7 @@ var RotationController = React.createClass({
       // communicate scale to owner
       this.setState(
         { scale: scale },
-        function() { p.onScale(this.state.base * scale); }
+        function() { p.onChange(this.state.base * scale); }
       );
     }
   },

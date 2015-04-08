@@ -18,7 +18,7 @@ var RotationController = React.createClass({
   handleTransform: function() {
     var s = this.state, p = this.props;
 
-    if (p.origin && p.onRotate) {
+    if (p.origin && p.onChange) {
       var node = p.origin.getDOMNode();
       var dims = node.getBoundingClientRect();
       var xOffset = dims.left + (dims.right - dims.left)/2;
@@ -46,7 +46,7 @@ var RotationController = React.createClass({
       // communicate angle to owner
       this.setState(
         { angle: angle },
-        function() { p.onRotate(this.state.base + angle); }
+        function() { p.onChange(this.state.base + angle); }
       );
     }
   },

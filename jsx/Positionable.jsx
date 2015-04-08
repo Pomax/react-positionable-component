@@ -3,17 +3,17 @@
 var React = require("react/dist/react.min");
 var classes = require("classnames");
 
+var PlacementController = require("./PlacementController.jsx");
 var RotationController = require("./RotationController.jsx");
 var ScaleController = require("./ScaleController.jsx");
 var ZIndexController = require("./ZIndexController.jsx");
 
 var Positionable = React.createClass({
-  mixins: [
-    require("./Transform-mixin")
-  ],
 
   getInitialState: function() {
     return {
+      x: this.props.x || 0,
+      y: this.props.y || 0,
       angle: this.props.angle || 0,
       scale: this.props.scale || 1,
       zIndex: this.props.zIndex || 1
@@ -21,9 +21,8 @@ var Positionable = React.createClass({
   },
 
   render: function() {
-    var x = this.state.x + this.state.xDiff;
-    var y = this.state.y + this.state.yDiff;
-
+    var x = this.state.x;
+    var y = this.state.y;
     var angle = (180 * this.state.angle / Math.PI);
     var scale = this.state.scale;
     var zIndex = this.state.zIndex;
@@ -45,12 +44,20 @@ var Positionable = React.createClass({
 
     return (
       <div style={style} className={className}>
-        <RotationController angle={this.state.angle}   onRotate={this.handleRotation} activated="true" origin={this} />
-        <ScaleController    scale={this.state.scale}   onScale={this.handleScaling}   activated="true" origin={this} />
-        <ZIndexController   zIndex={this.state.zIndex} onChange={this.handleZIndexChange} />
+        <PlacementController x={this.state.x} y={this.state.y} onChange={this.handleTranslation} activated="true" origin={this} />
+        <RotationController  angle={this.state.angle}          onChange={this.handleRotation}    activated="true" origin={this} />
+        <ScaleController     scale={this.state.scale}          onChange={this.handleScaling}     activated="true" origin={this} />
+        <ZIndexController    zIndex={this.state.zIndex}        onChange={this.handleZIndexChange} />
         {this.props.children}
       </div>
     );
+  },
+
+  handleTranslation: function(x, y) {
+    this.setState({
+      x: x,
+      y: y
+    });
   },
 
   handleRotation: function(angle) {
@@ -76,7 +83,8 @@ var Positionable = React.createClass({
       x: this.state.x,
       y: this.state.y,
       angle: this.state.angle,
-      scale: this.state.scale
+      scale: this.state.scale,
+      zIndex: this.state.zIndex
     };
   },
 
@@ -85,7 +93,8 @@ var Positionable = React.createClass({
       x: obj.x || 0,
       y: obj.y || 0,
       angle: obj.angle || 0,
-      scale: obj.scale || 1
+      scale: obj.scale || 1,
+      zIndex: obj.zIndex || 0
     });
   }
 });
