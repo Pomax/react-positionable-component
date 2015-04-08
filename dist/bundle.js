@@ -157,13 +157,7 @@ var Positionable = React.createClass({displayName: "Positionable",
     });
 
     return (
-      React.createElement("div", {style: style, 
-       className: className, 
-       onMouseDown: this.state.activated ? this.startReposition : false, 
-       onTouchStart: this.startRepositionTouch, 
-       onTouchMove: this.repositionTouch, 
-       onTouchEnd: this.endRepositionTouch
-      }, 
+      React.createElement("div", {style: style, className: className}, 
 
         React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
         React.createElement(ScaleController, {scale: this.state.scale, activated: "true", origin: this, onScale: this.handleScaling}), 
@@ -377,8 +371,16 @@ module.exports = {
     if(activated) this.setState({ activated: activated});
   },
 
+  componentDidMount: function() {
+    this.getDOMNode();
+    document.addEventListener("mousedown", this.startReposition);
+    document.addEventListener("touchstart", this.startRepositionTouch);
+  },
+
   componentWillUnmount: function() {
     this.stopListening();
+    document.removeEventListener("mousedown", this.startReposition);
+    document.removeEventListener("touchstart", this.startRepositionTouch);
   },
 
   toggle: function(evt) {
@@ -387,9 +389,9 @@ module.exports = {
     });
   },
 
-  /**
-   * MOUSE EVENT HANDLING
-   */
+  /****************************************************************
+   *                     MOUSE EVENT HANDLING
+   ****************************************************************/
 
   startReposition: function(evt) {
     evt.stopPropagation();
@@ -446,17 +448,14 @@ module.exports = {
     document.removeEventListener("mouseup",   this.endReposition);
   },
 
-  /**
-   * TOUCH EVENT HANDLING
-   */
+  /****************************************************************
+   *                   TOUCH EVENT HANDLING
+   ****************************************************************/
 
   startRepositionTouch: function(evt) {
     if (this.state.activated) {
       evt.preventDefault();
       fixTouchEvent(evt);
-      //      document.dispatchEvent (new CustomEvent("app:log", {detail: {
-      //        msg: "touch start: " + evt.clientX + "/" + evt.clientY
-      //      }}));
       this.setState({
         active: true,
         xMark: evt.clientX,
@@ -477,9 +476,6 @@ module.exports = {
     if(this.state.active) {
       evt.preventDefault();
       fixTouchEvent(evt);
-      //      document.dispatchEvent (new CustomEvent("app:log", {detail: {
-      //        msg: "touch move: " + evt.clientX + "/" + evt.clientY + " d " + this.state.xMark +"/" + this.state.yMark
-      //      }}));
       this.setState({
         xDiff: evt.clientX - this.state.xMark,
         yDiff: evt.clientY - this.state.yMark
@@ -493,7 +489,6 @@ module.exports = {
 
   endRepositionTouch: function() {
     if(this.state.active) {
-      //      document.dispatchEvent (new CustomEvent("app:log", {detail: { msg: "touch end" }}));
       this.stopListeningTouch();
       this.setState({
         active: false,
@@ -513,7 +508,6 @@ module.exports = {
     document.removeEventListener("touchmove", this.repositionTouch);
     document.removeEventListener("touchend", this.endRepositionTouch);
   }
-
 };
 
 

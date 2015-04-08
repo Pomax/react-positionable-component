@@ -54,13 +54,7 @@ var Positionable = React.createClass({
     });
 
     return (
-      <div style={style}
-       className={className}
-       onMouseDown={this.state.activated ? this.startReposition : false}
-       onTouchStart={this.startRepositionTouch}
-       onTouchMove={this.repositionTouch}
-       onTouchEnd={this.endRepositionTouch}
-      >
+      <div style={style} className={className}>
 
         <RotationController angle={this.state.angle} activated="true" origin={this} onRotate={this.handleRotation} />
         <ScaleController    scale={this.state.scale} activated="true" origin={this} onScale={this.handleScaling}   />
