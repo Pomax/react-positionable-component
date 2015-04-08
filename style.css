@@ -80,11 +80,11 @@ htlm, body {
   border: none;
   background: rgba(0,0,0,0.2);
 }
-.zmod.left {
+.positionable .zindex-controller .zmod.left {
   padding-right: 0.25em;
   margin-right: -0.25em;
 }
-.zmod.right {
+.positionable .zindex-controller .zmod.right {
   padding-left: 0.25em;
   margin-left: -0.25em;
 }
