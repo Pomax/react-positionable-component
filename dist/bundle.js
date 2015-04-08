@@ -148,9 +148,9 @@ var Positionable = React.createClass({displayName: "Positionable",
 
     return (
       React.createElement("div", {style: style, className: className}, 
-        React.createElement(RotationController, {angle: this.state.angle, activated: "true", origin: this, onRotate: this.handleRotation}), 
-        React.createElement(ScaleController, {scale: this.state.scale, activated: "true", origin: this, onScale: this.handleScaling}), 
         React.createElement(ZIndexController, {zIndex: this.state.zIndex, onChange: this.handleZIndexChange}), 
+        React.createElement(RotationController, {angle: this.state.angle, onRotate: this.handleRotation, activated: "true", origin: this}), 
+        React.createElement(ScaleController, {scale: this.state.scale, onScale: this.handleScaling, activated: "true", origin: this}), 
         this.props.children
       )
     );
