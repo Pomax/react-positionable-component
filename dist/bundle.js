@@ -104,18 +104,11 @@ React.render(content, target);
 "use strict";
 
 var React = require("react/dist/react.min");
+var classes = require("classnames");
 
-
-function fixTouchEvent(evt) {
-  evt.clientX = parseInt( evt.touches[0].pageX, 10);
-  evt.clientY = parseInt( evt.touches[0].pageY, 10);
-}
-
-
-var ZIndexController = require("./ZIndexController.jsx");
 var RotationController = require("./RotationController.jsx");
 var ScaleController = require("./ScaleController.jsx");
-var classes = require("classnames");
+var ZIndexController = require("./ZIndexController.jsx");
 
 var Positionable = React.createClass({displayName: "Positionable",
   mixins: [
@@ -128,11 +121,6 @@ var Positionable = React.createClass({displayName: "Positionable",
       scale: this.props.scale || 1,
       zIndex: this.props.zIndex || 1
     };
-  },
-
-  componentWillMount: function() {
-    console.log("toggling");
-    this.toggle();
   },
 
   render: function() {

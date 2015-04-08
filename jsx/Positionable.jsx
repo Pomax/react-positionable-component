@@ -1,18 +1,11 @@
 "use strict";
 
 var React = require("react/dist/react.min");
+var classes = require("classnames");
 
-
-function fixTouchEvent(evt) {
-  evt.clientX = parseInt( evt.touches[0].pageX, 10);
-  evt.clientY = parseInt( evt.touches[0].pageY, 10);
-}
-
-
-var ZIndexController = require("./ZIndexController.jsx");
 var RotationController = require("./RotationController.jsx");
 var ScaleController = require("./ScaleController.jsx");
-var classes = require("classnames");
+var ZIndexController = require("./ZIndexController.jsx");
 
 var Positionable = React.createClass({
   mixins: [
@@ -27,25 +20,22 @@ var Positionable = React.createClass({
     };
   },
 
-  componentWillMount: function() {
-    console.log("toggling");
-    this.toggle();
-  },
-
   render: function() {
     var x = this.state.x + this.state.xDiff;
     var y = this.state.y + this.state.yDiff;
 
-    var angle = (180 * this.state.angle / Math.PI)
+    var angle = (180 * this.state.angle / Math.PI);
+    var scale = this.state.scale;
+    var zIndex = this.state.zIndex;
 
     var style = {
       transform: [
         "translate("+x+"px, "+y+"px)",
         "rotate("+angle+"deg)",
-        "scale("+this.state.scale+")"
+        "scale("+scale+")"
       ].join(" "),
       transformOrigin: "center",
-      zIndex: this.state.zIndex
+      zIndex: zIndex
     };
 
     var className = classes({
@@ -63,12 +53,24 @@ var Positionable = React.createClass({
     );
   },
 
-  handleZIndexChange: function(z) { this.setState({ zIndex: z })},
-  handleRotation: function(angle) { this.setState({ angle: angle }); },
-  handleScaling: function(scale) { this.setState({ scale: scale }); },
+  handleRotation: function(angle) {
+    this.setState({
+      angle: angle
+    });
+  },
 
-  // Always useful to be able to extract this information, in case it needs
-  // to be stored for future restoring.
+  handleScaling: function(scale) {
+    this.setState({
+      scale: scale
+    });
+  },
+
+  handleZIndexChange: function(zIndex) {
+    this.setState({
+      zIndex: zIndex
+    });
+  },
+
   getTransform: function() {
     return {
       x: this.state.x,

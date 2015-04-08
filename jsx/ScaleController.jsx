@@ -12,38 +12,39 @@ var RotationController = React.createClass({
   },
 
   render: function() {
-    return (
-      <div className="scale-control"
-           onMouseDown={this.state.activated ? this.startReposition : false}
-           onTouchStart={this.state.activated ? this.startReposition : false}>⇲</div>
-    );
+    return <div className="scale-control">⇲</div>;
   },
 
   handleTransform: function() {
-    if (this.props.origin && this.props.onScale) {
-      var s = this.state;
+    var s = this.state, p = this.props;
+    if (p.origin && p.onScale) {
+      var node = p.origin.getDOMNode();
+      var dims = node.getBoundingClientRect();
+      var xOffset = dims.left + (dims.right - dims.left)/2;
+      var yOffset = dims.top + (dims.bottom - dims.top)/2;
 
-      var dimensions = this.props.origin.getDOMNode().getBoundingClientRect();
-      var xOffset = dimensions.left + (dimensions.right - dimensions.left)/2;
-      var yOffset = dimensions.top + (dimensions.bottom - dimensions.top)/2;
       //  vector 1:
       var x1 = s.xMark - xOffset,
           y1 = s.yMark - yOffset;
+
       //  vector 2:
       var x2 = (s.xMark + s.xDiff) - xOffset,
           y2 = (s.yMark + s.yDiff) - yOffset;
+
       // normalised vector 1:
       var m1 = Math.sqrt(x1*x1 + y1*y1),
           nx1 = x1 / m1,
           ny1 = y1 / m1;
+
       // projection of vector 2 onto vector 1 involves
       // finding the projection scale factor, which is
       // exactly what we need:
       var scale = (x2*nx1 + y2*ny1)/m1;
+
       // communicate scale to owner
       this.setState(
         { scale: scale },
-        function() { this.props.onScale(this.state.base * scale); }
+        function() { p.onScale(this.state.base * scale); }
       );
     }
   },
