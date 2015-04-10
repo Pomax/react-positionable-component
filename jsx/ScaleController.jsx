@@ -4,7 +4,8 @@ var React = require("react/dist/react.min");
 
 var RotationController = React.createClass({
   mixins: [
-    require("./Transform-mixin")
+    require("./Transform-mixin"),
+    require("./Scale-mixin")
   ],
 
   getInitialState: function() {
@@ -12,7 +13,9 @@ var RotationController = React.createClass({
   },
 
   render: function() {
-    return <div className="scale-control">⇲</div>;
+    return <div className="scale-control">
+      <div style={this.getScaleStyle()}>⇲</div>
+    </div>;
   },
 
   handleTransform: function() {

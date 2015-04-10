@@ -45,21 +45,25 @@ var Positionable = React.createClass({
       <div style={style} className={className}>
         <PlacementController x={this.state.x}
                              y={this.state.y}
+                             ref="placementController"
                              onChange={this.handleTranslation}
                              activated="true"
                              origin={this} />
 
         <RotationController  angle={this.state.angle}
+                             ref="rotationController"
                              onChange={this.handleRotation}
                              activated="true"
                              origin={this} />
 
         <ScaleController     scale={this.state.scale}
+                             ref="scaleController"
                              onChange={this.handleScaling}
                              activated="true"
                              origin={this} />
 
         <ZIndexController    zIndex={this.state.zIndex}
+                             ref="zIndexController"
                              onChange={this.handleZIndexChange} />
 
         {this.props.children}
@@ -81,8 +85,15 @@ var Positionable = React.createClass({
   },
 
   handleScaling: function(scale) {
+    console.log(scale);
     this.setState({
       scale: scale
+    }, function() {
+      // make sure all the controls are counter-scale if scale < 1
+      var counterScale = 1/scale;
+      ["rotation","scale","placement","zIndex"].forEach(function(c) {
+        this.refs[c+"Controller"].setScale(counterScale);
+      }.bind(this));
     });
   },
 

@@ -31,11 +31,14 @@ htlm, body {
   display: block;
   top: -1.1em;
   left: -1.0em;
+  cursor: pointer;
+}
+.positionable .placement-control div {
   width: 1em;
   height: 1em;
   padding: 1em;
-  cursor: pointer;
-  background: transparent;
+  background: rgba(0,0,0,0.3);
+  border-radius: 3em;
 }
 .positionable .placement-control span {
   position: relative;
@@ -52,13 +55,15 @@ htlm, body {
   display: block;
   top: 1.6em;
   right: -1.6em;
-  width: 1em;
-  height: 1em;
-  padding: 1em;
   cursor: pointer;
   transform-origin: 0.5em 0.5em;
   transform: rotate(-135deg);
-  background: transparent;
+}
+.positionable .rotation-control div {
+  width: 1em;
+  height: 1em;
+  padding: 1em;
+  background: rgba(0,0,0,0.3);
   border-radius: 3em;
 }
 
@@ -68,11 +73,13 @@ htlm, body {
   display: block;
   bottom: -0.9em;
   right: -1.3em;
+  cursor: pointer;
+}
+.positionable .scale-control div {
   width: 1em;
   height: 1em;
   padding: 1em;
-  cursor: pointer;
-  background: transparent;
+  background: rgba(0,0,0,0.3);
   border-radius: 3em;
 }
 

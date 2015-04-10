@@ -4,13 +4,16 @@ var React = require("react/dist/react.min");
 
 var PlacementController = React.createClass({
   mixins: [
-    require("./Transform-mixin")
+    require("./Transform-mixin"),
+    require("./Scale-mixin")
   ],
 
   render: function() {
     return <div className="placement-control">
-      <span>↔</span>
-      <span>↕</span>
+      <div style={this.getScaleStyle()}>
+        <span>↔</span>
+        <span>↕</span>
+      </div>
     </div>;
   },
 

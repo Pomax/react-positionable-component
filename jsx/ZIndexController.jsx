@@ -4,6 +4,10 @@ var React = require("react/dist/react.min");
 
 var ZIndexController = React.createClass({
 
+  mixins: [
+    require("./Scale-mixin")
+  ],
+
   getInitialState: function() {
     return {
       zIndex: this.props.zIndex || 0
@@ -13,7 +17,9 @@ var ZIndexController = React.createClass({
   render: function() {
     return (
       <div className="zindex-controller">
-        layer position: <span className="zmod left" onClick={this.zDown}>◀</span> {this.state.zIndex} <span className="zmod right" onClick={this.zUp}>▶</span>
+        <div style={this.getScaleStyle()}>
+          layer position: <span className="zmod left" onClick={this.zDown}>◀</span> {this.state.zIndex} <span className="zmod right" onClick={this.zUp}>▶</span>
+        </div>
       </div>
     );
   },

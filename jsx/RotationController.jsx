@@ -4,15 +4,22 @@ var React = require("react/dist/react.min");
 
 var RotationController = React.createClass({
   mixins: [
-    require("./Transform-mixin")
+    require("./Transform-mixin"),
+    require("./Scale-mixin")
   ],
 
   getInitialState: function() {
-    return { base: this.props.angle || 0, angle: 0 };
+    return {
+      base: this.props.angle || 0,
+      angle: 0
+    };
   },
 
   render: function() {
-    return <div className="rotation-control">↻</div>;
+    
+    return <div className="rotation-control">
+      <div style={this.getScaleStyle()}>↻</div>
+    </div>;
   },
 
   handleTransform: function() {
