@@ -1,6 +1,6 @@
 "use strict";
 
-var React = require("react/dist/react.min");
+var React = require("react");
 
 // Main components:
 var Positionable = require('../jsx/Positionable.jsx');

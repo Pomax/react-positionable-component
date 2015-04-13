@@ -1,8 +1,8 @@
 "use strict";
 
-var React = require("react/dist/react.min");
+var React = require("react");
 
-var RotationController = React.createClass({
+var ScaleController = React.createClass({
   mixins: [
     require("./Transform-mixin"),
     require("./Scale-mixin")
@@ -60,5 +60,5 @@ var RotationController = React.createClass({
   }
 });
 
-module.exports = RotationController;
+module.exports = ScaleController;
 

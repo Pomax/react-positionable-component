@@ -1,6 +1,6 @@
 "use strict";
 
-var React = require("react/dist/react.min");
+var React = require("react");
 
 var RotationController = React.createClass({
   mixins: [
@@ -16,7 +16,7 @@ var RotationController = React.createClass({
   },
 
   render: function() {
-    
+
     return <div className="rotation-control">
       <div style={this.getScaleStyle()}>↻</div>
     </div>;

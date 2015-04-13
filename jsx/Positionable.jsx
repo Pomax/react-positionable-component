@@ -1,6 +1,6 @@
 "use strict";
 
-var React = require("react/dist/react.min");
+var React = require("react");
 var classes = require("classnames");
 
 var PlacementController = require("./PlacementController.jsx");
