@@ -16,7 +16,8 @@ var Positionable = React.createClass({
       y: this.props.y || 0,
       angle: this.props.angle || 0,
       scale: this.props.scale || 1,
-      zIndex: this.props.zIndex || 1
+      zIndex: this.props.zIndex || 1,
+      activated: !!this.props.activated || false
     };
   },
 
@@ -38,11 +39,12 @@ var Positionable = React.createClass({
     };
 
     var className = classes({
-      positionable: true
+      positionable: true,
+      activated: this.state.activated
     });
 
     return (
-      <div style={style} className={className}>
+      <div style={style} className={className} onClick={this.handleClick}>
         <PlacementController x={this.state.x}
                              y={this.state.y}
                              ref="placementController"
@@ -71,6 +73,18 @@ var Positionable = React.createClass({
     );
   },
 
+  toggle: function(evt) {
+    this.setState({
+      activated: !this.state.activated
+    });
+  },
+
+  handleClick: function() {
+    if(this.props.clickHandler) {
+      this.props.clickHandler(this);
+    }
+  },
+
   handleTranslation: function(x, y) {
     this.setState({
       x: x,
@@ -85,7 +99,6 @@ var Positionable = React.createClass({
   },
 
   handleScaling: function(scale) {
-    console.log(scale);
     this.setState({
       scale: scale
     }, function() {

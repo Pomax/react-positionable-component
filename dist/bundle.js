@@ -151,7 +151,8 @@ var Positionable = React.createClass({displayName: "Positionable",
       y: this.props.y || 0,
       angle: this.props.angle || 0,
       scale: this.props.scale || 1,
-      zIndex: this.props.zIndex || 1
+      zIndex: this.props.zIndex || 1,
+      activated: !!this.props.activated || false
     };
   },
 
@@ -173,11 +174,12 @@ var Positionable = React.createClass({displayName: "Positionable",
     };
 
     var className = classes({
-      positionable: true
+      positionable: true,
+      activated: this.state.activated
     });
 
     return (
-      React.createElement("div", {style: style, className: className}, 
+      React.createElement("div", {style: style, className: className, onClick: this.handleClick}, 
         React.createElement(PlacementController, {x: this.state.x, 
                              y: this.state.y, 
                              ref: "placementController", 
@@ -206,6 +208,18 @@ var Positionable = React.createClass({displayName: "Positionable",
     );
   },
 
+  toggle: function(evt) {
+    this.setState({
+      activated: !this.state.activated
+    });
+  },
+
+  handleClick: function() {
+    if(this.props.clickHandler) {
+      this.props.clickHandler(this);
+    }
+  },
+
   handleTranslation: function(x, y) {
     this.setState({
       x: x,
@@ -220,7 +234,6 @@ var Positionable = React.createClass({displayName: "Positionable",
   },
 
   handleScaling: function(scale) {
-    console.log(scale);
     this.setState({
       scale: scale
     }, function() {
@@ -491,7 +504,7 @@ module.exports = {
     });
   },
 
-  
+
 
   /****************************************************************
    *                     MOUSE EVENT HANDLING
