@@ -1,6 +1,6 @@
 {
   "name": "react-positionable-component",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A <Positionable> wrapper component to make arbitrary content easier to CSS transform",
   "author": "Pomax",
   "main": "jsx/Positionable.jsx",
