@@ -8,7 +8,18 @@ var RotationController = require("./RotationController.jsx");
 var ScaleController = require("./ScaleController.jsx");
 var ZIndexController = require("./ZIndexController.jsx");
 
+var onClickOutside = require("react-onclickoutside");
+
 var Positionable = React.createClass({
+
+  mixins: [ onClickOutside ],
+
+  handleClickOutside: function() {
+    this.stopHandling();
+    this.setState({
+      activated: false
+    });
+  },
 
   getInitialState: function() {
     return {
@@ -43,32 +54,38 @@ var Positionable = React.createClass({
       activated: this.state.activated
     });
 
+    var controls = [
+      <PlacementController x={this.state.x}
+                           y={this.state.y}
+                           ref="placementController"
+                           onChange={this.handleTranslation}
+                           activated="true"
+                           origin={this} />
+      ,
+      <RotationController  angle={this.state.angle}
+                           ref="rotationController"
+                           onChange={this.handleRotation}
+                           activated="true"
+                           origin={this} />
+      ,
+      <ScaleController     scale={this.state.scale}
+                           ref="scaleController"
+                           onChange={this.handleScaling}
+                           activated="true"
+                           origin={this} />
+      ,
+      <ZIndexController    zIndex={this.state.zIndex}
+                           ref="zIndexController"
+                           onChange={this.handleZIndexChange} />
+    ];
+
     return (
-      <div style={style} className={className} onClick={this.handleClick}>
-        <PlacementController x={this.state.x}
-                             y={this.state.y}
-                             ref="placementController"
-                             onChange={this.handleTranslation}
-                             activated="true"
-                             origin={this} />
-
-        <RotationController  angle={this.state.angle}
-                             ref="rotationController"
-                             onChange={this.handleRotation}
-                             activated="true"
-                             origin={this} />
-
-        <ScaleController     scale={this.state.scale}
-                             ref="scaleController"
-                             onChange={this.handleScaling}
-                             activated="true"
-                             origin={this} />
-
-        <ZIndexController    zIndex={this.state.zIndex}
-                             ref="zIndexController"
-                             onChange={this.handleZIndexChange} />
-
-        {this.props.children}
+      <div style={style} className={className}
+           onMouseDown={this.startHandling}
+           onTap={this.startHandlingTouch}
+           onMouseUp={this.stopHandling}>
+        { this.state.activated ? controls : false }
+        { this.props.children }
       </div>
     );
   },
@@ -79,13 +96,26 @@ var Positionable = React.createClass({
     });
   },
 
-  handleClick: function() {
-    if(this.props.clickHandler) {
+  startHandlingTouch: function() {
+    this.setState({
+      activated: true
+    });
+  },
+
+  startHandling: function() {
+    this.handling = true;
+  },
+
+  stopHandling: function() {
+    if(this.handling && this.props.clickHandler && !this.manipulating) {
       this.props.clickHandler(this);
     }
+    this.manipulating = false;
+    this.handling = false;
   },
 
   handleTranslation: function(x, y) {
+    this.manipulating = true;
     this.setState({
       x: x,
       y: y
@@ -93,12 +123,14 @@ var Positionable = React.createClass({
   },
 
   handleRotation: function(angle) {
+    this.manipulating = true;
     this.setState({
       angle: angle
     });
   },
 
   handleScaling: function(scale) {
+    this.manipulating = true;
     this.setState({
       scale: scale
     }, function() {
@@ -111,6 +143,7 @@ var Positionable = React.createClass({
   },
 
   handleZIndexChange: function(zIndex) {
+    this.manipulating = true;
     this.setState({
       zIndex: zIndex
     });
